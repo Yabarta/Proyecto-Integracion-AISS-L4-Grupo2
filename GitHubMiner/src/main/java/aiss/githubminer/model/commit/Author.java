@@ -1,19 +1,13 @@
 
-package aiss.githubminer.model;
+package aiss.githubminer.model.commit;
 
-import javax.annotation.Generated;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "name",
-    "email",
-    "date"
-})
-@Generated("jsonschema2pojo")
-public class Committer {
+import java.util.List;
+
+@JsonIgnoreProperties(ignoreUnknown=true)
+public class Author {
 
     @JsonProperty("name")
     private String name;
@@ -55,7 +49,7 @@ public class Committer {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Committer.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Author.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("name");
         sb.append('=');
         sb.append(((this.name == null)?"<null>":this.name));

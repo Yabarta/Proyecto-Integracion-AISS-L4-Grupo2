@@ -1,5 +1,5 @@
 
-package aiss.githubminer.model;
+package aiss.githubminer.model.commit;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -20,8 +20,6 @@ public class Commit {
     private Author__1 author;
     @JsonProperty("committer")
     private Committer__1 committer;
-    @JsonProperty("parents")
-    private List<Parent> parents;
 
     @JsonProperty("sha")
     public String getSha() {
@@ -73,16 +71,6 @@ public class Commit {
         this.committer = committer;
     }
 
-    @JsonProperty("parents")
-    public List<Parent> getParents() {
-        return parents;
-    }
-
-    @JsonProperty("parents")
-    public void setParents(List<Parent> parents) {
-        this.parents = parents;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -106,10 +94,6 @@ public class Commit {
         sb.append("committer");
         sb.append('=');
         sb.append(((this.committer == null)?"<null>":this.committer));
-        sb.append(',');
-        sb.append("parents");
-        sb.append('=');
-        sb.append(((this.parents == null)?"<null>":this.parents));
         sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');

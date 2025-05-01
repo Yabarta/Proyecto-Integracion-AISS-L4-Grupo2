@@ -1,34 +1,11 @@
+package aiss.githubminer.model.commit;
 
-package aiss.githubminer.model;
-
-import javax.annotation.Generated;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "login",
-    "id",
-    "node_id",
-    "avatar_url",
-    "gravatar_id",
-    "url",
-    "html_url",
-    "followers_url",
-    "following_url",
-    "gists_url",
-    "starred_url",
-    "subscriptions_url",
-    "organizations_url",
-    "repos_url",
-    "events_url",
-    "received_events_url",
-    "type",
-    "user_view_type",
-    "site_admin"
-})
-@Generated("jsonschema2pojo")
+import java.util.List;
+
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Author__1 {
 
     @JsonProperty("login")
