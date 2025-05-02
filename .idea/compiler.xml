@@ -15,9 +15,12 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
         </processorPath>
-        <module name="githubminer" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="githubminer" target="21" />
+      <module name="mining-tool" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
