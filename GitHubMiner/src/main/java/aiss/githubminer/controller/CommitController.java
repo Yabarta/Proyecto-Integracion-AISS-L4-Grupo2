@@ -3,6 +3,10 @@ package aiss.githubminer.controller;
 import aiss.githubminer.model.commit.Commit;
 import aiss.githubminer.service.CommitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -42,8 +46,8 @@ public class CommitController {
                                 @RequestParam(defaultValue = "2") Integer maxPages)  {
     List<Commit> commits = commitService.getCommits(owner, repoName, page, perPage, nCommits, sinceCommits, maxPages); 
     HttpEntity<List<Commit>> request = new HttpEntity<>(commits);
-    ResponseEntity<List<Commit>> response = 
-            restTemplate.exchange(gitMinerURI, HttpMethod.POST, request, List.class);
+    ResponseEntity<List<Commit>> response =
+            restTemplate.exchange(gitMinerURI, HttpMethod.POST, request, new ParameterizedTypeReference<List<Commit>>() {} );
     return response.getBody();
     }
 

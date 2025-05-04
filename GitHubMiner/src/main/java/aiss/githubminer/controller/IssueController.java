@@ -5,6 +5,10 @@ import aiss.githubminer.service.IssueService;
 import aiss.githubminer.service.ProjectService;
 import aiss.githubminer.model.project.Project;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -42,7 +46,7 @@ public class IssueController {
     List<Issue> issues = issueService.getIssues(owner, repoName, page, perPage, nIssues, sinceIssues, maxPages);
     HttpEntity<List<Issue>> request = new HttpEntity<>(issues);
     ResponseEntity<List<Issue>> response = 
-            restTemplate.exchange(gitMinerURI, HttpMethod.POST, request, List.class);
+            restTemplate.exchange(gitMinerURI, HttpMethod.POST, request, new ParameterizedTypeReference<List<Issue>>() {});
     return response.getBody();
     }
 
