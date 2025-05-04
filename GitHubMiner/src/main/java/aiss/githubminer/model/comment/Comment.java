@@ -69,11 +69,6 @@ public class Comment {
         this.body = body;
     }
 
-    @JsonProperty("performed_via_github_app")
-    public Object getPerformedViaGithubApp() {
-        return performedViaGithubApp;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

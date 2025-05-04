@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,7 +41,13 @@ public class CommentService {
 
         while (currentPage <= maxPages) {
 
-            String url = githubApiUrl + "/" + owner + "/" + repo + "/issues/" + issue + "/comments";
+            String url = githubApiUrl + "/" + owner + "/" + repo + "/issues/";
+
+            if(issue == null){
+                url += "comments";
+            } else {
+                url += issue + "/comments";
+            }
 
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", "Bearer " + githubToken);
