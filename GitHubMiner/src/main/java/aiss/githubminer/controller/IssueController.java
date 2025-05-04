@@ -2,8 +2,6 @@ package aiss.githubminer.controller;
 
 import aiss.githubminer.model.issue.Issue;
 import aiss.githubminer.service.IssueService;
-import aiss.githubminer.service.ProjectService;
-import aiss.githubminer.model.project.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;

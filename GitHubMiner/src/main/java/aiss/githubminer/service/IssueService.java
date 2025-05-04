@@ -84,4 +84,11 @@ public class IssueService {
         return allIssues;
 
     }
+
+    public List<ParsedIssue> parseIssues(List<Issue> issues) {
+        List<ParsedIssue> newIssues = new ArrayList<>();
+        for (Issue issue : issues) {
+
+        }
+    }
 }

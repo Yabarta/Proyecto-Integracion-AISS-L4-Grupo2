@@ -18,7 +18,6 @@ public class CommitController {
 
     @Autowired
     private CommitService commitService;
-    @Autowired
     private RestTemplate restTemplate;
     private final String gitMinerURI = "http://localhost:8080/gitminer";
 

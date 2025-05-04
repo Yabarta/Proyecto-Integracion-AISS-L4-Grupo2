@@ -1,26 +1,26 @@
 
-package aiss.githubminer.model.project;
+package aiss.githubminer.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Project {
+public class ParsedProject {
 
     @JsonProperty("id")
-    private Integer id;
+    private String id;
     @JsonProperty("name")
     private String name;
-    @JsonProperty("html_url")
-    private String html_url;
+    @JsonProperty("web_url")
+    private String web_url;
 
     @JsonProperty("id")
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -34,20 +34,20 @@ public class Project {
         this.name = name;
     }
 
-    @JsonProperty("html_url")
+    @JsonProperty("web_url")
     public String getHtmlUrl() {
-        return html_url;
+        return web_url;
     }
 
-    @JsonProperty("html_url")
-    public void setHtmlUrl(String html_url) {
-        this.html_url = html_url;
+    @JsonProperty("web_url")
+    public void setHtmlUrl(String web_url) {
+        this.web_url = web_url;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Project.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(ParsedProject.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("id");
         sb.append('=');
         sb.append(((this.id == null)?"<null>":this.id));
@@ -56,9 +56,9 @@ public class Project {
         sb.append('=');
         sb.append(((this.name == null)?"<null>":this.name));
         sb.append(',');
-        sb.append("html_url");
+        sb.append("web_url");
         sb.append('=');
-        sb.append(((this.html_url == null)?"<null>":this.html_url));
+        sb.append(((this.web_url == null)?"<null>":this.web_url));
         sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');

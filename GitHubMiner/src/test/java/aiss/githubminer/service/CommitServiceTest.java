@@ -18,7 +18,7 @@ class CommitServiceTest {
     @Test
     void getCommits() {
         List<Commit> commits = service.getCommits("spring-projects","spring-framework",
-                null,null,null,null,null);
+                null,null,null,10,null);
         assertFalse(commits.isEmpty(), "No commits found");
         System.out.println(commits);
     }
