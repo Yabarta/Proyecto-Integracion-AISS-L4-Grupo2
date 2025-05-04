@@ -25,23 +25,20 @@ public class CommitController {
     @GetMapping("/{owner}/{repoName}/commits")
     public List<Commit> getCommits(@PathVariable String owner,
                                    @PathVariable String repoName,
-                                   @RequestParam(defaultValue = "1") Integer page,
-                                   @RequestParam(defaultValue = "10") Integer perPage,
-                                   @RequestParam(defaultValue = "100") Integer nCommits,
+                                   @RequestParam(required=false) Integer page,
+                                   @RequestParam(required=false) Integer perPage,
+                                   @RequestParam(required=false) Integer nCommits,
                                    @RequestParam(defaultValue = "2") Integer sinceCommits,
                                    @RequestParam(defaultValue = "2") Integer maxPages) {
-        if (page <= 0 || perPage <= 0 || nCommits <= 0) {
-            throw new IllegalArgumentException("Los parámetros page, perPage y nCommits deben ser mayores que 0.");
-        }
         return commitService.getCommits(owner, repoName, page, perPage, nCommits, sinceCommits, maxPages);
     }
 
     @PostMapping("/{owner}/{repoName}/commits")
     public List<Commit> sendCommits(@PathVariable String owner,
                                 @PathVariable String repoName,
-                                @RequestParam(defaultValue = "1") Integer page,
-                                @RequestParam(defaultValue = "10") Integer perPage,
-                                @RequestParam(defaultValue = "100") Integer nCommits,
+                                @RequestParam(required=false) Integer page,
+                                @RequestParam(required=false) Integer perPage,
+                                @RequestParam(required=false) Integer nCommits,
                                 @RequestParam(defaultValue = "2") Integer sinceCommits,
                                 @RequestParam(defaultValue = "2") Integer maxPages)  {
     List<Commit> commits = commitService.getCommits(owner, repoName, page, perPage, nCommits, sinceCommits, maxPages); 

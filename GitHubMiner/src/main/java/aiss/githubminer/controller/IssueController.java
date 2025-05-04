@@ -27,9 +27,9 @@ public class IssueController {
     @GetMapping("/{owner}/{repoName}/issues")
     public List<Issue> getIssues(@PathVariable String owner,
                                  @PathVariable String repoName,
-                                 @RequestParam(defaultValue = "1") Integer page,
-                                 @RequestParam(defaultValue = "10") Integer perPage,
-                                 @RequestParam(defaultValue = "100") Integer nIssues,
+                                 @RequestParam(required=false) Integer page,
+                                 @RequestParam(required=false) Integer perPage,
+                                 @RequestParam(required=false) Integer nIssues,
                                  @RequestParam(defaultValue = "20") Integer sinceIssues,
                                  @RequestParam(defaultValue = "2") Integer maxPages) {
     return issueService.getIssues(owner, repoName, page, perPage, nIssues, sinceIssues, maxPages);
@@ -38,9 +38,9 @@ public class IssueController {
     @PostMapping("/{owner}/{repoName}/issues")
     public List<Issue> sendIssues(@PathVariable String owner,
                                @PathVariable String repoName,
-                               @RequestParam(defaultValue = "1") Integer page,
-                                 @RequestParam(defaultValue = "10") Integer perPage,
-                                 @RequestParam(defaultValue = "100") Integer nIssues,
+                               @RequestParam(required=false) Integer page,
+                                 @RequestParam(required=false) Integer perPage,
+                                 @RequestParam(required=false) Integer nIssues,
                                  @RequestParam(defaultValue = "20") Integer sinceIssues,
                                  @RequestParam(defaultValue = "2") Integer maxPages) {
     List<Issue> issues = issueService.getIssues(owner, repoName, page, perPage, nIssues, sinceIssues, maxPages);

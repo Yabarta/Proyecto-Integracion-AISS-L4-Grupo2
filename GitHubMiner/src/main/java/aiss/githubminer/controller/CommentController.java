@@ -24,10 +24,10 @@ public class CommentController {
     @GetMapping("/{owner}/{repoName}/issues/{issue}/comments")
     public List<Comment> getComments(@PathVariable String owner,
                                      @PathVariable String repoName,
-                                     @RequestParam(defaultValue = "1") Integer issue, //cambiar esto por un id válido
-                                     @RequestParam(defaultValue = "1") Integer page,
-                                     @RequestParam(defaultValue = "10") Integer perPage,
-                                     @RequestParam(defaultValue = "100") Integer nComments,
+                                     @RequestParam(required=false) Integer issue, //cambiar esto por un id válido
+                                     @RequestParam(required=false) Integer page,
+                                     @RequestParam(required=false) Integer perPage,
+                                     @RequestParam(required=false) Integer nComments,
                                      @RequestParam(defaultValue = "2") Integer maxPages) {
     return commentService.getComments(owner, repoName, issue, page, perPage, nComments, maxPages);
     }
@@ -35,10 +35,10 @@ public class CommentController {
     @PostMapping("/{owner}/{repoName}/issues/{issue}/comments")
     public List<Comment> sendComments(@PathVariable String owner,
                                @PathVariable String repoName,
-                               @RequestParam(defaultValue = "1") Integer issue,
-                               @RequestParam(defaultValue = "1") Integer page,
-                               @RequestParam(defaultValue = "10") Integer perPage,
-                               @RequestParam(defaultValue = "100") Integer nComments,
+                               @RequestParam(required=false) Integer issue,
+                               @RequestParam(required=false) Integer page,
+                               @RequestParam(required=false) Integer perPage,
+                               @RequestParam(required=false) Integer nComments,
                                @RequestParam(defaultValue = "2") Integer maxPages) {
     List<Comment> comments = commentService.getComments(owner, repoName, issue, page, perPage, nComments, maxPages);
     HttpEntity<List<Comment>> request = new HttpEntity<>(comments);
