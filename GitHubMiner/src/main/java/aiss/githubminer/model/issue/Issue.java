@@ -1,5 +1,7 @@
 package aiss.githubminer.model.issue;
 
+import aiss.githubminer.model.ParsedUser;
+import aiss.githubminer.model.comment.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
@@ -30,6 +32,10 @@ public class Issue {
     private List<Label> labels;
     @JsonProperty("reactions")
     private Reactions votes;
+    @JsonProperty("author")
+    private User author;
+    @JsonProperty("assignee")
+    private Assignee assignee;
 
     public long getId() {
         return id;
@@ -69,16 +75,6 @@ public class Issue {
 
     public void setNumber(Long number) {
         this.number = number;
-    }
-
-    @JsonProperty("html_url")
-    public String getHtmlUrl() {
-        return html_url;
-    }
-
-    @JsonProperty("html_url")
-    public void setHtmlUrl(String html_url) {
-        this.html_url = html_url;
     }
 
     public OffsetDateTime getCreatedAt() {
@@ -121,6 +117,30 @@ public class Issue {
         this.votes = votes;
     }
 
+    public String getHtml_url() {
+        return html_url;
+    }
+
+    public void setHtml_url(String html_url) {
+        this.html_url = html_url;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public Assignee getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(Assignee assignee) {
+        this.assignee = assignee;
+    }
+
     @Override
     public String toString() {
         return "Issue{" +
@@ -128,12 +148,14 @@ public class Issue {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", state='" + state + '\'' +
-                ", number=" + number +
+                ", number=" + number + '\'' +
                 ", html_url='" + html_url + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", closedAt=" + closedAt +
                 ", labels=" + labels +
+                ", author=" + author +
+                ", assignee=" + assignee +
                 ", votes=" + votes +
                 '}';
     }

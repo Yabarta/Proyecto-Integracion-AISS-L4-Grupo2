@@ -17,6 +17,14 @@ public class ParsedUser {
     @JsonProperty("web_url")
     private String web_url;
 
+    public ParsedUser(String id, String username, String name, String avatar_url, String web_url) {
+        this.id = id;
+        this.username = username;
+        this.name = name;
+        this.avatar_url = avatar_url;
+        this.web_url = web_url;
+    }
+
     public String getId() {
         return id;
     }

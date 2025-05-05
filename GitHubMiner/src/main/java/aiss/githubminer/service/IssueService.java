@@ -1,6 +1,9 @@
 package aiss.githubminer.service;
 
 import aiss.githubminer.model.ParsedIssue;
+import aiss.githubminer.model.ParsedUser;
+import aiss.githubminer.model.comment.User;
+import aiss.githubminer.model.issue.Assignee;
 import aiss.githubminer.model.issue.Issue;
 import aiss.githubminer.model.issue.Label;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,11 +106,13 @@ public class IssueService {
                     issue.getTitle(),
                     issue.getDescription(),
                     issue.getState(),
-                    issue.getHtmlUrl(),
+                    issue.getHtml_url(),
                     String.valueOf(issue.getCreatedAt()),
                     String.valueOf(issue.getUpdatedAt()),
                     String.valueOf(issue.getClosedAt()),
                     labels,
+                    parseAuthor(issue.getAuthor()),
+                    parseAssignee(issue.getAssignee()),
                     issue.getVotes().getPlusOne());
 
             List<String> parsedLabels = new ArrayList<>();
@@ -118,5 +123,31 @@ public class IssueService {
             data.add(newIssue);
         }
         return data;
+    }
+
+    public ParsedUser parseAuthor(User user) {
+        if (user == null) {
+            return new ParsedUser(null, null, null, null, null); 
+        }
+        return new ParsedUser(
+                String.valueOf(user.getId()),
+                user.getLogin(),
+                user.getLogin(),
+                user.getAvatarUrl(),
+                user.getHtmlUrl()
+        );
+    }
+    
+    public ParsedUser parseAssignee(Assignee user) {
+        if (user == null) {
+            return new ParsedUser(null, null, null, null, null); 
+        }
+        return new ParsedUser(
+                String.valueOf(user.getId()),
+                user.getLogin(),
+                user.getLogin(),
+                user.getAvatarUrl(),
+                user.getHtmlUrl()
+        );
     }
 }

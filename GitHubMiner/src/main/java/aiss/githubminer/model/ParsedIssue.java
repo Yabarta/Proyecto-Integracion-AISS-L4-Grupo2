@@ -32,12 +32,17 @@ public class ParsedIssue {
     @JsonProperty("votes")
     private Integer votes;
     @JsonProperty("comments")
-    private List<Comment> comments;
+    private List<ParsedComment> comments;
+    @JsonProperty("author")
+    private ParsedUser author;
+    @JsonProperty("assignee")
+    private ParsedUser assignee;
 
     public ParsedIssue(String id, Long ref_Id, String title, String description, String state, String web_url,
                        String created_at, String updated_at, String closed_at, List<String> labels,
-                       Integer votes) {
+                       ParsedUser author, ParsedUser assignee, Integer votes) {
         this.id = id;
+        this.ref_Id = ref_Id;
         this.title = title;
         this.description = description;
         this.state = state;
@@ -46,6 +51,8 @@ public class ParsedIssue {
         this.updated_at = updated_at;
         this.closed_at = closed_at;
         this.labels = labels;
+        this.author = author;
+        this.assignee = assignee;
         this.votes = votes;
     }
 
@@ -129,11 +136,27 @@ public class ParsedIssue {
         this.labels = labels;
     }
 
-    public List<Comment> getComments() {
+    public ParsedUser getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(ParsedUser author) {
+        this.author = author;
+    }
+
+    public ParsedUser getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(ParsedUser assignee) {
+        this.assignee = assignee;
+    }
+
+    public List<ParsedComment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(List<ParsedComment> comments) {
         this.comments = comments;
     }
 
@@ -152,6 +175,8 @@ public class ParsedIssue {
                 "ref_Id=" + ref_Id + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
+                ", author=" + author + '\'' +
+                ", assignee=" + assignee + '\'' +
                 ", state='" + state + '\'' +
                 ", web_url='" + web_url + '\'' +
                 ", created_at='" + created_at + '\'' +

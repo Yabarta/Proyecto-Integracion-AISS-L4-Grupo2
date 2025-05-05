@@ -1,6 +1,7 @@
 package aiss.githubminer.model;
 
 
+import aiss.githubminer.model.comment.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -11,10 +12,20 @@ public class ParsedComment {
     private String id;
     @JsonProperty("body")
     private String body;
+    @JsonProperty("author")
+    private ParsedUser author;
     @JsonProperty("created_at")
     private String created_at;
     @JsonProperty("updated_at")
     private String updated_at;
+
+    public ParsedComment(String id, String body, ParsedUser author, String created_at, String updated_at) {
+        this.id = id;
+        this.body = body;
+        this.author = author;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
 
     public String getId() {
         return id;
@@ -30,6 +41,14 @@ public class ParsedComment {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public ParsedUser getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(ParsedUser author) {
+        this.author = author;
     }
 
     public String getCreated_at() {
@@ -53,6 +72,7 @@ public class ParsedComment {
         return "ParsedComment{" +
                 "id='" + id + '\'' +
                 ", body='" + body + '\'' +
+                ", author=" + author + '\'' +
                 ", created_at='" + created_at + '\'' +
                 ", updated_at='" + updated_at + '\'' +
                 '}';
