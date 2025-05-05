@@ -21,6 +21,17 @@ public class ParsedCommit {
     @JsonProperty("web_url")
     private String web_url;
 
+    public ParsedCommit(String id, String title, String message, String author_name,
+                        String author_email, String authored_date, String web_url) {
+        this.id = id;
+        this.title = title;
+        this.message = message;
+        this.author_name = author_name;
+        this.author_email = author_email;
+        this.authored_date = authored_date;
+        this.web_url = web_url;
+    }
+
     public String getId() {
         return id;
     }

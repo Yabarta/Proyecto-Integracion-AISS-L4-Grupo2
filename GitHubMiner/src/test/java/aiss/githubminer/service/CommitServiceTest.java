@@ -1,5 +1,6 @@
 package aiss.githubminer.service;
 
+import aiss.githubminer.model.ParsedCommit;
 import aiss.githubminer.model.commit.Commit;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ class CommitServiceTest {
 
     @Test
     void getCommits() {
-        List<Commit> commits = service.getCommits("spring-projects","spring-framework",
-                null,null,null,10,null);
+        List<ParsedCommit> commits = service.getCommits("spring-projects","spring-framework",
+                null,null,null,50,null);
         assertFalse(commits.isEmpty(), "No commits found");
         System.out.println(commits);
     }
