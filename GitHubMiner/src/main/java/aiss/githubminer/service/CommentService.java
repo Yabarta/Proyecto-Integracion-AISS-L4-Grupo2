@@ -26,7 +26,7 @@ public class CommentService {
     @Value("${github.token}")
     private String githubToken;
 
-    public List<Comment> getComments(String owner, String repo, Integer issue, Integer page, 
+    public List<Comment> getComments(String owner, String repo, Long issue, Integer page, 
     Integer perPage, Integer nComments, Integer maxPages) {
         // Valores por defecto
         if (maxPages == null) {

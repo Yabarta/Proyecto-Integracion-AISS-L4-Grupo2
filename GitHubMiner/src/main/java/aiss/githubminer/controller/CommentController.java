@@ -24,7 +24,7 @@ public class CommentController {
     @GetMapping("/{owner}/{repoName}/issues/comments")
     public List<Comment> getAllComments(@PathVariable String owner,
                                      @PathVariable String repoName,
-                                     @RequestParam(required=false) Integer issue,
+                                     @RequestParam(required=false) Long issue,
                                      @RequestParam(required=false) Integer page,
                                      @RequestParam(required=false) Integer perPage,
                                      @RequestParam(required=false) Integer nComments,
@@ -32,21 +32,10 @@ public class CommentController {
     return commentService.getComments(owner, repoName, issue, page, perPage, nComments, maxPages);
     }
 
-    @GetMapping("/{owner}/{repoName}/issues/{issue}/comments")
-    public List<Comment> getComments(@PathVariable String owner, // arreglar el por qué no va en postman
-                                     @PathVariable String repoName,
-                                     @RequestParam(defaultValue= "3037641317") Integer issue,
-                                     @RequestParam(required=false) Integer page,
-                                     @RequestParam(required=false) Integer perPage,
-                                     @RequestParam(required=false) Integer nComments,
-                                     @RequestParam(defaultValue = "2") Integer maxPages) {
-        return commentService.getComments(owner, repoName, issue, page, perPage, nComments, maxPages);
-    }
-
     @PostMapping("/{owner}/{repoName}/issues/comments")
     public List<Comment> sendComments(@PathVariable String owner,
                                @PathVariable String repoName,
-                               @RequestParam(required=false) Integer issue,
+                               @RequestParam(required=false) Long issue,
                                @RequestParam(required=false) Integer page,
                                @RequestParam(required=false) Integer perPage,
                                @RequestParam(required=false) Integer nComments,

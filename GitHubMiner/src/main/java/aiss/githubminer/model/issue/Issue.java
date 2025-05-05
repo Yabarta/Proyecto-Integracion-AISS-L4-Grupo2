@@ -16,6 +16,10 @@ public class Issue {
     private String description;
     @JsonProperty("state")
     private String state;
+    @JsonProperty("number")
+    private Long number;
+    @JsonProperty("html_url")
+    private String html_url;
     @JsonProperty("created_at")
     private OffsetDateTime createdAt;
     @JsonProperty("updated_at")
@@ -26,10 +30,6 @@ public class Issue {
     private List<Label> labels;
     @JsonProperty("reactions")
     private Reactions votes;
-
-    // estos getters, setters y toString han sido generados automáticamente por intellij ya que
-    // json2pojo ha decidido no funcionar.
-
 
     public long getId() {
         return id;
@@ -61,6 +61,24 @@ public class Issue {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public Long getNumber() {
+        return number;
+    }
+
+    public void setNumber(Long number) {
+        this.number = number;
+    }
+
+    @JsonProperty("html_url")
+    public String getHtmlUrl() {
+        return html_url;
+    }
+
+    @JsonProperty("html_url")
+    public void setHtmlUrl(String html_url) {
+        this.html_url = html_url;
     }
 
     public OffsetDateTime getCreatedAt() {
@@ -110,6 +128,8 @@ public class Issue {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", state='" + state + '\'' +
+                ", number=" + number +
+                ", html_url='" + html_url + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", closedAt=" + closedAt +

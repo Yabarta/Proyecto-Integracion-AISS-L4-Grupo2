@@ -1,5 +1,6 @@
 package aiss.githubminer.model;
 
+import aiss.githubminer.model.comment.Comment;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,6 +11,8 @@ public class ParsedIssue {
 
     @JsonProperty("id")
     private String id;
+    @JsonProperty("ref_Id")
+    private Long ref_Id;
     @JsonProperty("title")
     private String title;
     @JsonProperty("description")
@@ -28,6 +31,23 @@ public class ParsedIssue {
     private List<String> labels;
     @JsonProperty("votes")
     private Integer votes;
+    @JsonProperty("comments")
+    private List<Comment> comments;
+
+    public ParsedIssue(String id, Long ref_Id, String title, String description, String state, String web_url,
+                       String created_at, String updated_at, String closed_at, List<String> labels,
+                       Integer votes) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.state = state;
+        this.web_url = web_url;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.closed_at = closed_at;
+        this.labels = labels;
+        this.votes = votes;
+    }
 
     public String getId() {
         return id;
@@ -35,6 +55,14 @@ public class ParsedIssue {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Long getRef_Id() {
+        return ref_Id;
+    }
+
+    public void setRef_Id(Long ref_Id) {
+        this.ref_Id = ref_Id;
     }
 
     public String getTitle() {
@@ -101,6 +129,14 @@ public class ParsedIssue {
         this.labels = labels;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     public Integer getVotes() {
         return votes;
     }
@@ -113,6 +149,7 @@ public class ParsedIssue {
     public String toString() {
         return "ParsedIssue{" +
                 "id='" + id + '\'' +
+                "ref_Id=" + ref_Id + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", state='" + state + '\'' +
@@ -121,6 +158,7 @@ public class ParsedIssue {
                 ", updated_at='" + updated_at + '\'' +
                 ", closed_at='" + closed_at + '\'' +
                 ", labels=" + labels +
+                ", comments=" + comments +
                 ", votes=" + votes +
                 '}';
     }

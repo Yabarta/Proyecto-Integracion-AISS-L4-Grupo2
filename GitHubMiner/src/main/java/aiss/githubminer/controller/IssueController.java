@@ -1,5 +1,6 @@
 package aiss.githubminer.controller;
 
+import aiss.githubminer.model.ParsedIssue;
 import aiss.githubminer.model.issue.Issue;
 import aiss.githubminer.service.IssueService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,28 +24,28 @@ public class IssueController {
     private final String gitMinerURI = "http://localhost:8080/gitminer";
 
     @GetMapping("/{owner}/{repoName}/issues")
-    public List<Issue> getIssues(@PathVariable String owner,
-                                 @PathVariable String repoName,
-                                 @RequestParam(required=false) Integer page,
-                                 @RequestParam(required=false) Integer perPage,
-                                 @RequestParam(required=false) Integer nIssues,
-                                 @RequestParam(defaultValue = "20") Integer sinceIssues,
-                                 @RequestParam(defaultValue = "2") Integer maxPages) {
+    public List<ParsedIssue> getIssues(@PathVariable String owner,
+                                       @PathVariable String repoName,
+                                       @RequestParam(required=false) Integer page,
+                                       @RequestParam(required=false) Integer perPage,
+                                       @RequestParam(required=false) Integer nIssues,
+                                       @RequestParam(defaultValue = "20") Integer sinceIssues,
+                                       @RequestParam(defaultValue = "2") Integer maxPages) {
     return issueService.getIssues(owner, repoName, page, perPage, nIssues, sinceIssues, maxPages);
     }
 
     @PostMapping("/{owner}/{repoName}/issues")
-    public List<Issue> sendIssues(@PathVariable String owner,
+    public List<ParsedIssue> sendIssues(@PathVariable String owner,
                                @PathVariable String repoName,
                                @RequestParam(required=false) Integer page,
                                  @RequestParam(required=false) Integer perPage,
                                  @RequestParam(required=false) Integer nIssues,
                                  @RequestParam(defaultValue = "20") Integer sinceIssues,
                                  @RequestParam(defaultValue = "2") Integer maxPages) {
-    List<Issue> issues = issueService.getIssues(owner, repoName, page, perPage, nIssues, sinceIssues, maxPages);
-    HttpEntity<List<Issue>> request = new HttpEntity<>(issues);
-    ResponseEntity<List<Issue>> response = 
-            restTemplate.exchange(gitMinerURI, HttpMethod.POST, request, new ParameterizedTypeReference<List<Issue>>() {});
+    List<ParsedIssue> issues = issueService.getIssues(owner, repoName, page, perPage, nIssues, sinceIssues, maxPages);
+    HttpEntity<List<ParsedIssue>> request = new HttpEntity<>(issues);
+    ResponseEntity<List<ParsedIssue>> response =
+            restTemplate.exchange(gitMinerURI, HttpMethod.POST, request, new ParameterizedTypeReference<List<ParsedIssue>>() {});
     return response.getBody();
     }
 
