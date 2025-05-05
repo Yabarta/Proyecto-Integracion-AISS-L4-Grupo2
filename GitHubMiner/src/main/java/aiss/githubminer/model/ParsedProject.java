@@ -4,6 +4,8 @@ package aiss.githubminer.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class ParsedProject {
 
@@ -13,59 +15,65 @@ public class ParsedProject {
     private String name;
     @JsonProperty("web_url")
     private String web_url;
+    @JsonProperty("commits")
+    private List<ParsedCommit> commits;
+    @JsonProperty("issues")
+    private List<ParsedIssue> issues;
 
-    @JsonProperty("id")
+    public ParsedProject(String id, String name, String web_url) {
+        this.id = id;
+        this.name = name;
+        this.web_url = web_url;
+    }
+
     public String getId() {
         return id;
     }
 
-    @JsonProperty("id")
     public void setId(String id) {
         this.id = id;
     }
 
-    @JsonProperty("name")
     public String getName() {
         return name;
     }
 
-    @JsonProperty("name")
     public void setName(String name) {
         this.name = name;
     }
 
-    @JsonProperty("web_url")
-    public String getHtmlUrl() {
+    public String getWeb_url() {
         return web_url;
     }
 
-    @JsonProperty("web_url")
-    public void setHtmlUrl(String web_url) {
+    public void setWeb_url(String web_url) {
         this.web_url = web_url;
+    }
+
+    public List<ParsedCommit> getCommits() {
+        return commits;
+    }
+
+    public void setCommits(List<ParsedCommit> commits) {
+        this.commits = commits;
+    }
+
+    public List<ParsedIssue> getIssues() {
+        return issues;
+    }
+
+    public void setIssues(List<ParsedIssue> issues) {
+        this.issues = issues;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(ParsedProject.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("id");
-        sb.append('=');
-        sb.append(((this.id == null)?"<null>":this.id));
-        sb.append(',');
-        sb.append("name");
-        sb.append('=');
-        sb.append(((this.name == null)?"<null>":this.name));
-        sb.append(',');
-        sb.append("web_url");
-        sb.append('=');
-        sb.append(((this.web_url == null)?"<null>":this.web_url));
-        sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
-        } else {
-            sb.append(']');
-        }
-        return sb.toString();
+        return "ParsedProject{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", web_url='" + web_url + '\'' +
+                ", commits=" + commits +
+                ", issues=" + issues +
+                '}';
     }
-
 }

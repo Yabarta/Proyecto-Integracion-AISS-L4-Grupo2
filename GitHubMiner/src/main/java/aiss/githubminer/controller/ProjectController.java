@@ -1,5 +1,6 @@
 package aiss.githubminer.controller;
 
+import aiss.githubminer.model.ParsedProject;
 import aiss.githubminer.service.ProjectService;
 import aiss.githubminer.model.project.Project;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,8 @@ public class ProjectController {
     private final String gitMinerURI = "http://localhost:8080/gitminer";
 
     @GetMapping("/{owner}/{repoName}")
-    public Project getProject(@PathVariable String owner,
-                              @PathVariable String repoName) {
+    public ParsedProject getProject(@PathVariable String owner,
+                                    @PathVariable String repoName) {
                               //@RequestParam(defaultValue = "5") int sinceCommits,
                               //@RequestParam(defaultValue = "30") int sinceIssues,
                               //@RequestParam(defaultValue = "2") int maxPages)
@@ -30,15 +31,15 @@ public class ProjectController {
     }
 
     @PostMapping("/{owner}/{repoName}")
-    public Project sendProject(@PathVariable String owner,
+    public ParsedProject sendProject(@PathVariable String owner,
                                @PathVariable String repoName) {
                                // @RequestParam(defaultValue = "5") int sinceCommits,
                                // @RequestParam(defaultValue = "20") int sinceIssues,
                                // @RequestParam(defaultValue = "2") int maxPages)
-        Project project = projectService.getProjectData(owner, repoName); // No se si aqui deberiamos meter tambien los parametros opcionales
-        HttpEntity<Project> request = new HttpEntity<>(project);
-        ResponseEntity<Project> response =
-                restTemplate.exchange(gitMinerURI, HttpMethod.POST, request, Project.class);
+        ParsedProject project = projectService.getProjectData(owner, repoName); // No se si aqui deberiamos meter tambien los parametros opcionales
+        HttpEntity<ParsedProject> request = new HttpEntity<>(project);
+        ResponseEntity<ParsedProject> response =
+                restTemplate.exchange(gitMinerURI, HttpMethod.POST, request, ParsedProject.class);
         return response.getBody();
     }
 

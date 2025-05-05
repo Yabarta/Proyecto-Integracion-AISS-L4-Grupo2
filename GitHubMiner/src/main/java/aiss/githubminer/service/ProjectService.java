@@ -1,5 +1,8 @@
 package aiss.githubminer.service;
 
+import aiss.githubminer.model.ParsedCommit;
+import aiss.githubminer.model.ParsedIssue;
+import aiss.githubminer.model.ParsedProject;
 import aiss.githubminer.model.project.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
 
 @Service
 public class ProjectService {
@@ -21,8 +26,12 @@ public class ProjectService {
 
     @Value("${github.token}")
     private String githubToken;
+    @Autowired
+    private CommitService commitService;
+    @Autowired
+    private IssueService issueService;
 
-    public Project getProjectData(String owner, String repo) {
+    public ParsedProject getProjectData(String owner, String repo) {
     
         String url = githubApiUrl + "/" + owner + "/" + repo;
 
@@ -39,6 +48,25 @@ public class ProjectService {
                 Project.class
         );
 
-        return response.getBody();
+        ParsedProject parsedProject = parseProject(response.getBody());
+
+        List<ParsedCommit> commits = commitService.getCommits(owner,repo,null,null,null,
+                null,null);
+        List<ParsedIssue> issues = issueService.getIssues(owner,repo,null,null,null,
+                null,null);
+
+        parsedProject.setCommits(commits);
+        parsedProject.setIssues(issues);
+
+        return parsedProject;
+    }
+
+    public ParsedProject parseProject(Project project) {
+        ParsedProject newProject = new ParsedProject(
+                String.valueOf(project.getId()),
+                project.getName(),
+                project.getHtmlUrl()
+        );
+        return newProject;
     }
 }
