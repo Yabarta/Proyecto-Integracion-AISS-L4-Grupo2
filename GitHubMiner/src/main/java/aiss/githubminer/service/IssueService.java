@@ -1,6 +1,11 @@
 package aiss.githubminer.service;
 
+import aiss.githubminer.model.ParsedIssue;
+import aiss.githubminer.model.ParsedUser;
+import aiss.githubminer.model.comment.User;
+import aiss.githubminer.model.issue.Assignee;
 import aiss.githubminer.model.issue.Issue;
+import aiss.githubminer.model.issue.Label;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -10,6 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,8 +32,10 @@ public class IssueService {
 
     @Value("${github.token}")
     private String githubToken;
+    @Autowired
+    private CommentService commentService;
 
-    public List<Issue> getIssues(String owner, String repo, Integer page, Integer perPage,
+    public List<ParsedIssue> getIssues(String owner, String repo, Integer page, Integer perPage,
      Integer nIssues, Integer sinceIssues, Integer maxPages) {
         // Valores por defecto
         if (sinceIssues == null) {
@@ -74,11 +84,70 @@ public class IssueService {
             currentPage++;
         }
 
-        if (nIssues != null && nIssues < allIssues.size()) {
-            return allIssues.subList(0, nIssues);
+        List<ParsedIssue> parsedIssues = parseIssues(allIssues);
+        parsedIssues.forEach(parsedIssue -> parsedIssue.setComments(commentService
+                .getComments(owner,repo, parsedIssue.getRef_Id(),null,
+                        null,null,null)));
+
+        if (nIssues != null && nIssues < parsedIssues.size()) {
+            return parsedIssues.subList(0, nIssues);
         }
 
-        return allIssues;
+        return parsedIssues;
 
+    }
+
+    public List<ParsedIssue> parseIssues(List<Issue> issues) {
+        List<ParsedIssue> data = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+        for (Issue issue : issues) {
+            ParsedIssue newIssue = new ParsedIssue(String.valueOf(issue.getId()),
+                    issue.getNumber(),
+                    issue.getTitle(),
+                    issue.getDescription(),
+                    issue.getState(),
+                    issue.getHtml_url(),
+                    String.valueOf(issue.getCreatedAt()),
+                    String.valueOf(issue.getUpdatedAt()),
+                    String.valueOf(issue.getClosedAt()),
+                    labels,
+                    parseAuthor(issue.getAuthor()),
+                    parseAssignee(issue.getAssignee()),
+                    issue.getVotes().getPlusOne());
+
+            List<String> parsedLabels = new ArrayList<>();
+            for (Label label : issue.getLabels()) {
+                parsedLabels.add(label.getName());
+            }
+            newIssue.setLabels(parsedLabels);
+            data.add(newIssue);
+        }
+        return data;
+    }
+
+    public ParsedUser parseAuthor(User user) {
+        if (user == null) {
+            return new ParsedUser(null, null, null, null, null); 
+        }
+        return new ParsedUser(
+                String.valueOf(user.getId()),
+                user.getLogin(),
+                user.getLogin(),
+                user.getAvatarUrl(),
+                user.getHtmlUrl()
+        );
+    }
+    
+    public ParsedUser parseAssignee(Assignee user) {
+        if (user == null) {
+            return new ParsedUser(null, null, null, null, null); 
+        }
+        return new ParsedUser(
+                String.valueOf(user.getId()),
+                user.getLogin(),
+                user.getLogin(),
+                user.getAvatarUrl(),
+                user.getHtmlUrl()
+        );
     }
 }

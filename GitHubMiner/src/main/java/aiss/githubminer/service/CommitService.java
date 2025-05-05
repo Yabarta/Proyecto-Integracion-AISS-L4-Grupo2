@@ -1,5 +1,6 @@
 package aiss.githubminer.service;
 
+import aiss.githubminer.model.ParsedCommit;
 import aiss.githubminer.model.commit.Commit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +29,7 @@ public class CommitService {
     @Value("${github.token}")
     private String githubToken;
 
-    public List<Commit> getCommits(String owner, String repo, Integer page, Integer perPage, 
+    public List<ParsedCommit> getCommits(String owner, String repo, Integer page, Integer perPage,
     Integer nCommits, Integer sinceCommits, Integer maxPages) {
         // Valores por defecto
         if (sinceCommits == null) {
@@ -77,10 +78,32 @@ public class CommitService {
             currentPage++;
         }
 
-        if (nCommits != null && nCommits < allCommits.size()) {
-            return allCommits.subList(0, nCommits);
+        List<ParsedCommit> parsedCommits = parseCommit(allCommits);
+
+        if (nCommits != null && nCommits < parsedCommits.size()) {
+            return parsedCommits.subList(0, nCommits);
         }
 
-        return allCommits;
+        return parsedCommits;
+    }
+
+    public List<ParsedCommit> parseCommit(List<Commit> commits) {
+        List<ParsedCommit> data = new ArrayList<>();
+        for (Commit commit : commits) {
+            String message = commit.getCommit().getMessage();
+            String title = message.split("\n", 2)[0]; 
+
+            ParsedCommit newCommit = new ParsedCommit(
+                    commit.getSha(),
+                    title,
+                    message,
+                    commit.getCommit().getAuthor().getName(),
+                    commit.getCommit().getAuthor().getEmail(),
+                    commit.getCommit().getAuthor().getDate(),
+                    commit.getHtmlUrl()
+            );
+            data.add(newCommit);
+        }
+        return data;
     }
 }

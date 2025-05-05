@@ -1,33 +1,51 @@
 package aiss.githubminer.controller;
 
-import aiss.githubminer.service.ProjectService;
-import aiss.githubminer.model.project.Project;
+import aiss.githubminer.model.ParsedCommit;
+import aiss.githubminer.model.commit.Commit;
+import aiss.githubminer.service.CommitService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/githubminer")
-
+@RequestMapping("/github")
 public class CommitController {
 
     @Autowired
     private CommitService commitService;
-    @Autowired
     private RestTemplate restTemplate;
-    private final String gitMinerURI = "http://localhost:8080/gitminer"
+    private final String gitMinerURI = "http://localhost:8080/gitminer";
 
-    @GetMapping("/{owner}/{repoName}")
-    public List<Commit> getCommits(@PathVariable String owner,
-                               @PathVariable String repoName,
-                               @RequestParam int page,
-                               @RequestParam int perPage,
-                               @RequestParam int nCommits,
-                               @RequestParam(defaultValue = "2") int sinceCommits,
-                               @RequestParam(defaultValue = "2") int maxPages) {
-    return commitService.getCommits(owner, repoName, page, perPage, nCommits, sinceCommits, maxPages);
+    @GetMapping("/{owner}/{repoName}/commits")
+    public List<ParsedCommit> getCommits(@PathVariable String owner,
+                                         @PathVariable String repoName,
+                                         @RequestParam(required=false) Integer page,
+                                         @RequestParam(required=false) Integer perPage,
+                                         @RequestParam(required=false) Integer nCommits,
+                                         @RequestParam(defaultValue = "2") Integer sinceCommits,
+                                         @RequestParam(defaultValue = "2") Integer maxPages) {
+        return commitService.getCommits(owner, repoName, page, perPage, nCommits, sinceCommits, maxPages);
+    }
+
+    @PostMapping("/{owner}/{repoName}/commits")
+    public List<ParsedCommit> sendCommits(@PathVariable String owner,
+                                @PathVariable String repoName,
+                                @RequestParam(required=false) Integer page,
+                                @RequestParam(required=false) Integer perPage,
+                                @RequestParam(required=false) Integer nCommits,
+                                @RequestParam(defaultValue = "2") Integer sinceCommits,
+                                @RequestParam(defaultValue = "2") Integer maxPages)  {
+    List<ParsedCommit> commits = commitService.getCommits(owner, repoName, page, perPage, nCommits, sinceCommits, maxPages);
+    HttpEntity<List<ParsedCommit>> request = new HttpEntity<>(commits);
+    ResponseEntity<List<ParsedCommit>> response =
+            restTemplate.exchange(gitMinerURI, HttpMethod.POST, request, new ParameterizedTypeReference<List<ParsedCommit>>() {} );
+    return response.getBody();
     }
 
 

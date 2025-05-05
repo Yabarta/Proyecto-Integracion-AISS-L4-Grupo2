@@ -8,19 +8,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Project {
 
     @JsonProperty("id")
-    private Integer id;
+    private Long id;
     @JsonProperty("name")
     private String name;
     @JsonProperty("html_url")
-    private String htmlUrl;
+    private String html_url;
 
     @JsonProperty("id")
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -36,12 +36,12 @@ public class Project {
 
     @JsonProperty("html_url")
     public String getHtmlUrl() {
-        return htmlUrl;
+        return html_url;
     }
 
     @JsonProperty("html_url")
-    public void setHtmlUrl(String htmlUrl) {
-        this.htmlUrl = htmlUrl;
+    public void setHtmlUrl(String html_url) {
+        this.html_url = html_url;
     }
 
     @Override
@@ -56,9 +56,9 @@ public class Project {
         sb.append('=');
         sb.append(((this.name == null)?"<null>":this.name));
         sb.append(',');
-        sb.append("htmlUrl");
+        sb.append("html_url");
         sb.append('=');
-        sb.append(((this.htmlUrl == null)?"<null>":this.htmlUrl));
+        sb.append(((this.html_url == null)?"<null>":this.html_url));
         sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');

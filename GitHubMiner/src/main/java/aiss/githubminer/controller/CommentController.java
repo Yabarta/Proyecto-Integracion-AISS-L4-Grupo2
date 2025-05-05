@@ -1,33 +1,51 @@
 package aiss.githubminer.controller;
 
-import aiss.githubminer.service.ProjectService;
-import aiss.githubminer.model.project.Project;
+import aiss.githubminer.model.ParsedComment;
+import aiss.githubminer.model.comment.Comment;
+import aiss.githubminer.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/githubminer")
-
+@RequestMapping("/github")
 public class CommentController {
 
     @Autowired
     private CommentService commentService;
-    @Autowired
     private RestTemplate restTemplate;
-    private final String gitMinerURI = "http://localhost:8080/gitminer"
+    private final String gitMinerURI = "http://localhost:8080/gitminer";
 
-    @GetMapping("/{owner}/{repoName}")
-    public List<Comment> getComments(@PathVariable String owner,
+    @GetMapping("/{owner}/{repoName}/issues/comments")
+    public List<ParsedComment> getAllComments(@PathVariable String owner,
+                                              @PathVariable String repoName,
+                                              @RequestParam(required=false) Long issue,
+                                              @RequestParam(required=false) Integer page,
+                                              @RequestParam(required=false) Integer perPage,
+                                              @RequestParam(required=false) Integer nComments,
+                                              @RequestParam(defaultValue = "2") Integer maxPages) {
+    return commentService.getComments(owner, repoName, issue, page, perPage, nComments, maxPages);
+    }
+
+    @PostMapping("/{owner}/{repoName}/issues/comments")
+    public List<ParsedComment> sendComments(@PathVariable String owner,
                                @PathVariable String repoName,
-                               @RequestParam int page,
-                               @RequestParam int Integer perPage,
-                               @RequestParam int Integer nComments,
-                               @RequestParam(defaultValue = "2") Integer sinceComments,
+                               @RequestParam(required=false) Long issue,
+                               @RequestParam(required=false) Integer page,
+                               @RequestParam(required=false) Integer perPage,
+                               @RequestParam(required=false) Integer nComments,
                                @RequestParam(defaultValue = "2") Integer maxPages) {
-    return commentService.getComments(owner, repoName, page, perPage, nComments, sinceComments, maxPages);
+    List<ParsedComment> comments = commentService.getComments(owner, repoName, issue, page, perPage, nComments, maxPages);
+    HttpEntity<List<ParsedComment>> request = new HttpEntity<>(comments);
+    ResponseEntity<List<ParsedComment>> response =
+            restTemplate.exchange(gitMinerURI, HttpMethod.POST, request,  new ParameterizedTypeReference<List<ParsedComment>>() {});
+    return response.getBody();
     }
 
 

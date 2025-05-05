@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Comments {
+public class Comment {
 
     @JsonProperty("values")
     private List<Object> values;

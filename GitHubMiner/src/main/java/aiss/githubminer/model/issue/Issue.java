@@ -1,5 +1,7 @@
 package aiss.githubminer.model.issue;
 
+import aiss.githubminer.model.ParsedUser;
+import aiss.githubminer.model.comment.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
@@ -16,6 +18,10 @@ public class Issue {
     private String description;
     @JsonProperty("state")
     private String state;
+    @JsonProperty("number")
+    private Long number;
+    @JsonProperty("html_url")
+    private String html_url;
     @JsonProperty("created_at")
     private OffsetDateTime createdAt;
     @JsonProperty("updated_at")
@@ -26,10 +32,10 @@ public class Issue {
     private List<Label> labels;
     @JsonProperty("reactions")
     private Reactions votes;
-
-    // estos getters, setters y toString han sido generados automáticamente por intellij ya que
-    // json2pojo ha decidido no funcionar.
-
+    @JsonProperty("author")
+    private User author;
+    @JsonProperty("assignee")
+    private Assignee assignee;
 
     public long getId() {
         return id;
@@ -61,6 +67,14 @@ public class Issue {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public Long getNumber() {
+        return number;
+    }
+
+    public void setNumber(Long number) {
+        this.number = number;
     }
 
     public OffsetDateTime getCreatedAt() {
@@ -103,6 +117,30 @@ public class Issue {
         this.votes = votes;
     }
 
+    public String getHtml_url() {
+        return html_url;
+    }
+
+    public void setHtml_url(String html_url) {
+        this.html_url = html_url;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public Assignee getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(Assignee assignee) {
+        this.assignee = assignee;
+    }
+
     @Override
     public String toString() {
         return "Issue{" +
@@ -110,10 +148,14 @@ public class Issue {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", state='" + state + '\'' +
+                ", number=" + number + '\'' +
+                ", html_url='" + html_url + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", closedAt=" + closedAt +
                 ", labels=" + labels +
+                ", author=" + author +
+                ", assignee=" + assignee +
                 ", votes=" + votes +
                 '}';
     }
