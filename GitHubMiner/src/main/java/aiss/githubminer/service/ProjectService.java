@@ -31,8 +31,23 @@ public class ProjectService {
     @Autowired
     private IssueService issueService;
 
-    public ParsedProject getProjectData(String owner, String repo) {
-    
+    // (owner, repoName,maxPages, page, perPage, nIssues, sinceIssues, nCommits, sinceCommits)
+    public ParsedProject getProjectData(String owner, String repo, Integer maxPages, Integer page, Integer perPage,
+                                        Integer nIssues, Integer sinceIssues, Integer nCommits, Integer sinceCommits) {
+        // Valores por defecto
+        if (sinceIssues == null) {
+            sinceIssues = 20;
+        }
+        if (sinceCommits == null) {
+            sinceCommits = 2;
+        }
+        if (maxPages == null) {
+            maxPages = 2;
+        }
+        if (perPage == null) {
+            perPage = 10;
+        }
+
         String url = githubApiUrl + "/" + owner + "/" + repo;
 
         HttpHeaders headers = new HttpHeaders();
@@ -50,10 +65,10 @@ public class ProjectService {
 
         ParsedProject parsedProject = parseProject(response.getBody());
 
-        List<ParsedCommit> commits = commitService.getCommits(owner,repo,null,null,null,
-                null,null);
-        List<ParsedIssue> issues = issueService.getIssues(owner,repo,null,null,null,
-                null,null);
+        List<ParsedCommit> commits = commitService.getCommits(owner,repo,page,perPage,nCommits,
+                sinceCommits,maxPages);
+        List<ParsedIssue> issues = issueService.getIssues(owner,repo,page,perPage,nIssues,
+                sinceIssues,maxPages);
 
         parsedProject.setCommits(commits);
         parsedProject.setIssues(issues);

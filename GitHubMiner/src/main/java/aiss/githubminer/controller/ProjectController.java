@@ -23,20 +23,30 @@ public class ProjectController {
 
     @GetMapping("/{owner}/{repoName}")
     public ParsedProject getProject(@PathVariable String owner,
-                                    @PathVariable String repoName) {
-                              //@RequestParam(defaultValue = "5") int sinceCommits,
-                              //@RequestParam(defaultValue = "30") int sinceIssues,
-                              //@RequestParam(defaultValue = "2") int maxPages)
-        return projectService.getProjectData(owner, repoName); // No se si aqui deberiamos meter tambien los parametros opcionales
+                                    @PathVariable String repoName,
+                                    @RequestParam(defaultValue = "2") Integer maxPages,
+                                    @RequestParam(required=false) Integer page,
+                                    @RequestParam(required=false) Integer perPage,
+                                    @RequestParam(required=false) Integer nIssues,
+                                    @RequestParam(defaultValue = "20") Integer sinceIssues,
+                                    @RequestParam(required=false) Integer nCommits,
+                                    @RequestParam(defaultValue = "2") Integer sinceCommits){
+        return projectService.getProjectData(owner, repoName,maxPages, page, perPage, nIssues,
+                sinceIssues, nCommits, sinceCommits);
     }
 
     @PostMapping("/{owner}/{repoName}")
     public ParsedProject sendProject(@PathVariable String owner,
-                               @PathVariable String repoName) {
-                               // @RequestParam(defaultValue = "5") int sinceCommits,
-                               // @RequestParam(defaultValue = "20") int sinceIssues,
-                               // @RequestParam(defaultValue = "2") int maxPages)
-        ParsedProject project = projectService.getProjectData(owner, repoName); // No se si aqui deberiamos meter tambien los parametros opcionales
+                                     @PathVariable String repoName,
+                                     @RequestParam(defaultValue = "2") Integer maxPages,
+                                     @RequestParam(required=false) Integer page,
+                                     @RequestParam(required=false) Integer perPage,
+                                     @RequestParam(required=false) Integer nIssues,
+                                     @RequestParam(defaultValue = "20") Integer sinceIssues,
+                                     @RequestParam(required=false) Integer nCommits,
+                                     @RequestParam(defaultValue = "2") Integer sinceCommits) {
+        ParsedProject project = projectService.getProjectData(owner, repoName,maxPages, page, perPage, nIssues,
+                sinceIssues, nCommits, sinceCommits);
         HttpEntity<ParsedProject> request = new HttpEntity<>(project);
         ResponseEntity<ParsedProject> response =
                 restTemplate.exchange(gitMinerURI, HttpMethod.POST, request, ParsedProject.class);
