@@ -1,5 +1,6 @@
 package aiss.githubminer.service;
 
+import aiss.githubminer.model.ParsedComment;
 import aiss.githubminer.model.ParsedIssue;
 import aiss.githubminer.model.ParsedUser;
 import aiss.githubminer.model.comment.User;
@@ -67,6 +68,8 @@ public class IssueService {
                     .queryParam("page", currentPage)
                     .queryParam("per_page", perPage);
 
+            System.out.println("URL: " + uriBuilder.toUriString());
+
             ResponseEntity<Issue[]> response = restTemplate.exchange(
                     uriBuilder.toUriString(),
                     org.springframework.http.HttpMethod.GET,
@@ -84,11 +87,17 @@ public class IssueService {
             currentPage++;
         }
 
-        allIssues.forEach(issue -> issue.setComments(commentService
-                .getComments(owner,repo, issue.getNumber() ,null,
-                        null,null,null)));
-
         List<ParsedIssue> parsedIssues = parseIssues(allIssues);
+
+        allIssues.forEach(issue -> {
+            List<ParsedComment> parsedComments = commentService
+            .getComments(owner, repo, issue.getNumber(), null, null, null, null);
+            for (ParsedIssue parsed : parsedIssues) {
+                if (parsed.getId().equals(String.valueOf(issue.getId()))) {
+                    parsed.setComments(parsedComments);
+                }
+            }
+        });
 
         if (nIssues != null && nIssues < parsedIssues.size()) {
             return parsedIssues.subList(0, nIssues);
@@ -111,7 +120,6 @@ public class IssueService {
                     String.valueOf(issue.getClosedAt()),
                     labels,
                     issue.getVotes().getPlusOne(),
-                    issue.getComments(),
                     parseAuthor(issue.getAuthor()),
                     parseAssignee(issue.getAssignee()));
 

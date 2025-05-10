@@ -33,12 +33,10 @@ public class Issue {
     private List<Label> labels;
     @JsonProperty("reactions")
     private Reactions votes;
-    @JsonProperty("author")
+    @JsonProperty("user")
     private User author;
     @JsonProperty("assignee")
     private Assignee assignee;
-    @JsonProperty("comments")
-    private List<ParsedComment> comments;
 
     public long getId() {
         return id;
@@ -144,14 +142,6 @@ public class Issue {
         this.assignee = assignee;
     }
 
-    public List<ParsedComment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<ParsedComment> comments) {
-        this.comments = comments;
-    }
-
     @Override
     public String toString() {
         return "Issue{" +
@@ -168,7 +158,6 @@ public class Issue {
                 ", votes=" + votes +
                 ", author=" + author +
                 ", assignee=" + assignee +
-                ", comments=" + comments +
                 '}';
     }
 }

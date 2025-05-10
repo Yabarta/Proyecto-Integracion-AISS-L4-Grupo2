@@ -36,7 +36,7 @@ public class ParsedIssue {
 
     public ParsedIssue(String id, String title, String description, String state, String created_at,
                        String updated_at, String closed_at, List<String> labels, Integer votes,
-                       List<ParsedComment> comments, ParsedUser author, ParsedUser assignee) {
+                       ParsedUser author, ParsedUser assignee) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -46,7 +46,6 @@ public class ParsedIssue {
         this.closed_at = closed_at;
         this.labels = labels;
         this.votes = votes;
-        this.comments = comments;
         this.author = author;
         this.assignee = assignee;
     }
