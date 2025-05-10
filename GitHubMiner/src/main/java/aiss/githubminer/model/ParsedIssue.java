@@ -34,9 +34,9 @@ public class ParsedIssue {
     @JsonProperty("assignee")
     private ParsedUser assignee;
 
-    public ParsedIssue(String id, String title, String description, String state,
-                       String created_at, String updated_at, String closed_at, List<String> labels,
-                       ParsedUser author, ParsedUser assignee, Integer votes) {
+    public ParsedIssue(String id, String title, String description, String state, String created_at,
+                       String updated_at, String closed_at, List<String> labels, Integer votes,
+                       List<ParsedComment> comments, ParsedUser author, ParsedUser assignee) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -45,9 +45,10 @@ public class ParsedIssue {
         this.updated_at = updated_at;
         this.closed_at = closed_at;
         this.labels = labels;
+        this.votes = votes;
+        this.comments = comments;
         this.author = author;
         this.assignee = assignee;
-        this.votes = votes;
     }
 
     public String getId() {
@@ -106,28 +107,20 @@ public class ParsedIssue {
         this.closed_at = closed_at;
     }
 
+    public Integer getVotes() {
+        return votes;
+    }
+
+    public void setVotes(Integer votes) {
+        this.votes = votes;
+    }
+
     public List<String> getLabels() {
         return labels;
     }
 
     public void setLabels(List<String> labels) {
         this.labels = labels;
-    }
-
-    public ParsedUser getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(ParsedUser author) {
-        this.author = author;
-    }
-
-    public ParsedUser getAssignee() {
-        return assignee;
-    }
-
-    public void setAssignee(ParsedUser assignee) {
-        this.assignee = assignee;
     }
 
     public List<ParsedComment> getComments() {
@@ -138,12 +131,20 @@ public class ParsedIssue {
         this.comments = comments;
     }
 
-    public Integer getVotes() {
-        return votes;
+    public ParsedUser getAssignee() {
+        return assignee;
     }
 
-    public void setVotes(Integer votes) {
-        this.votes = votes;
+    public void setAssignee(ParsedUser assignee) {
+        this.assignee = assignee;
+    }
+
+    public ParsedUser getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(ParsedUser author) {
+        this.author = author;
     }
 
     @Override
@@ -152,15 +153,15 @@ public class ParsedIssue {
                 "id='" + id + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", author=" + author + '\'' +
-                ", assignee=" + assignee + '\'' +
                 ", state='" + state + '\'' +
                 ", created_at='" + created_at + '\'' +
                 ", updated_at='" + updated_at + '\'' +
                 ", closed_at='" + closed_at + '\'' +
                 ", labels=" + labels +
-                ", comments=" + comments +
                 ", votes=" + votes +
+                ", comments=" + comments +
+                ", author=" + author +
+                ", assignee=" + assignee +
                 '}';
     }
 }

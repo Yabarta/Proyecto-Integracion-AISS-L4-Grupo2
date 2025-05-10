@@ -1,5 +1,6 @@
 package aiss.githubminer.model.issue;
 
+import aiss.githubminer.model.ParsedComment;
 import aiss.githubminer.model.ParsedUser;
 import aiss.githubminer.model.comment.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -36,6 +37,8 @@ public class Issue {
     private User author;
     @JsonProperty("assignee")
     private Assignee assignee;
+    @JsonProperty("comments")
+    private List<ParsedComment> comments;
 
     public long getId() {
         return id;
@@ -141,6 +144,14 @@ public class Issue {
         this.assignee = assignee;
     }
 
+    public List<ParsedComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<ParsedComment> comments) {
+        this.comments = comments;
+    }
+
     @Override
     public String toString() {
         return "Issue{" +
@@ -148,15 +159,16 @@ public class Issue {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", state='" + state + '\'' +
-                ", number=" + number + '\'' +
+                ", number=" + number +
                 ", html_url='" + html_url + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", closedAt=" + closedAt +
                 ", labels=" + labels +
+                ", votes=" + votes +
                 ", author=" + author +
                 ", assignee=" + assignee +
-                ", votes=" + votes +
+                ", comments=" + comments +
                 '}';
     }
 }

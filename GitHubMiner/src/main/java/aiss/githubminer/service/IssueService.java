@@ -110,9 +110,10 @@ public class IssueService {
                     String.valueOf(issue.getUpdatedAt()),
                     String.valueOf(issue.getClosedAt()),
                     labels,
+                    issue.getVotes().getPlusOne(),
+                    issue.getComments(),
                     parseAuthor(issue.getAuthor()),
-                    parseAssignee(issue.getAssignee()),
-                    issue.getVotes().getPlusOne());
+                    parseAssignee(issue.getAssignee()));
 
             List<String> parsedLabels = new ArrayList<>();
             for (Label label : issue.getLabels()) {
@@ -124,7 +125,7 @@ public class IssueService {
         return data;
     }
 
-    public ParsedUser parseAuthor(Creator user) {
+    public ParsedUser parseAuthor(User user) {
         if (user == null) {
             return new ParsedUser(null, null, null, null, null); 
         }
