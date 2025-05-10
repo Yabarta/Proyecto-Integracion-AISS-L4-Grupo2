@@ -11,16 +11,12 @@ public class ParsedIssue {
 
     @JsonProperty("id")
     private String id;
-    @JsonProperty("ref_Id")
-    private Long ref_Id;
     @JsonProperty("title")
     private String title;
     @JsonProperty("description")
     private String description;
     @JsonProperty("state")
     private String state;
-    @JsonProperty("web_url")
-    private String web_url;
     @JsonProperty("created_at")
     private String created_at;
     @JsonProperty("updated_at")
@@ -38,15 +34,13 @@ public class ParsedIssue {
     @JsonProperty("assignee")
     private ParsedUser assignee;
 
-    public ParsedIssue(String id, Long ref_Id, String title, String description, String state, String web_url,
+    public ParsedIssue(String id, String title, String description, String state,
                        String created_at, String updated_at, String closed_at, List<String> labels,
                        ParsedUser author, ParsedUser assignee, Integer votes) {
         this.id = id;
-        this.ref_Id = ref_Id;
         this.title = title;
         this.description = description;
         this.state = state;
-        this.web_url = web_url;
         this.created_at = created_at;
         this.updated_at = updated_at;
         this.closed_at = closed_at;
@@ -62,14 +56,6 @@ public class ParsedIssue {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Long getRef_Id() {
-        return ref_Id;
-    }
-
-    public void setRef_Id(Long ref_Id) {
-        this.ref_Id = ref_Id;
     }
 
     public String getTitle() {
@@ -94,14 +80,6 @@ public class ParsedIssue {
 
     public void setState(String state) {
         this.state = state;
-    }
-
-    public String getWeb_url() {
-        return web_url;
-    }
-
-    public void setWeb_url(String web_url) {
-        this.web_url = web_url;
     }
 
     public String getCreated_at() {
@@ -172,13 +150,11 @@ public class ParsedIssue {
     public String toString() {
         return "ParsedIssue{" +
                 "id='" + id + '\'' +
-                "ref_Id=" + ref_Id + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", author=" + author + '\'' +
                 ", assignee=" + assignee + '\'' +
                 ", state='" + state + '\'' +
-                ", web_url='" + web_url + '\'' +
                 ", created_at='" + created_at + '\'' +
                 ", updated_at='" + updated_at + '\'' +
                 ", closed_at='" + closed_at + '\'' +

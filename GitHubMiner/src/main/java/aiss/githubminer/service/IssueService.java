@@ -84,10 +84,11 @@ public class IssueService {
             currentPage++;
         }
 
-        List<ParsedIssue> parsedIssues = parseIssues(allIssues);
-        parsedIssues.forEach(parsedIssue -> parsedIssue.setComments(commentService
-                .getComments(owner,repo, parsedIssue.getRef_Id(),null,
+        allIssues.forEach(issue -> issue.setComments(commentService
+                .getComments(owner,repo, issue.getNumber() ,null,
                         null,null,null)));
+
+        List<ParsedIssue> parsedIssues = parseIssues(allIssues);
 
         if (nIssues != null && nIssues < parsedIssues.size()) {
             return parsedIssues.subList(0, nIssues);
@@ -102,11 +103,9 @@ public class IssueService {
         List<String> labels = new ArrayList<>();
         for (Issue issue : issues) {
             ParsedIssue newIssue = new ParsedIssue(String.valueOf(issue.getId()),
-                    issue.getNumber(),
                     issue.getTitle(),
                     issue.getDescription(),
                     issue.getState(),
-                    issue.getHtml_url(),
                     String.valueOf(issue.getCreatedAt()),
                     String.valueOf(issue.getUpdatedAt()),
                     String.valueOf(issue.getClosedAt()),
@@ -125,7 +124,7 @@ public class IssueService {
         return data;
     }
 
-    public ParsedUser parseAuthor(User user) {
+    public ParsedUser parseAuthor(Creator user) {
         if (user == null) {
             return new ParsedUser(null, null, null, null, null); 
         }
