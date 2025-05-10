@@ -34,21 +34,6 @@ public class IssueController {
     return issueService.getIssues(owner, repoName, page, perPage, nIssues, sinceIssues, maxPages);
     }
 
-    @PostMapping("/{owner}/{repoName}/issues")
-    public List<ParsedIssue> sendIssues(@PathVariable String owner,
-                               @PathVariable String repoName,
-                               @RequestParam(required=false) Integer page,
-                                 @RequestParam(required=false) Integer perPage,
-                                 @RequestParam(required=false) Integer nIssues,
-                                 @RequestParam(defaultValue = "20") Integer sinceIssues,
-                                 @RequestParam(defaultValue = "2") Integer maxPages) {
-    List<ParsedIssue> issues = issueService.getIssues(owner, repoName, page, perPage, nIssues, sinceIssues, maxPages);
-    HttpEntity<List<ParsedIssue>> request = new HttpEntity<>(issues);
-    ResponseEntity<List<ParsedIssue>> response =
-            restTemplate.exchange(gitMinerURI, HttpMethod.POST, request, new ParameterizedTypeReference<List<ParsedIssue>>() {});
-    return response.getBody();
-    }
-
 
 }
 

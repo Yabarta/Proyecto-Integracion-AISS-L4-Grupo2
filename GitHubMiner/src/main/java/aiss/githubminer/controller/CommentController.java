@@ -33,21 +33,6 @@ public class CommentController {
     return commentService.getComments(owner, repoName, issue, page, perPage, nComments, maxPages);
     }
 
-    @PostMapping("/{owner}/{repoName}/issues/comments")
-    public List<ParsedComment> sendComments(@PathVariable String owner,
-                               @PathVariable String repoName,
-                               @RequestParam(required=false) Long issue,
-                               @RequestParam(required=false) Integer page,
-                               @RequestParam(required=false) Integer perPage,
-                               @RequestParam(required=false) Integer nComments,
-                               @RequestParam(defaultValue = "2") Integer maxPages) {
-    List<ParsedComment> comments = commentService.getComments(owner, repoName, issue, page, perPage, nComments, maxPages);
-    HttpEntity<List<ParsedComment>> request = new HttpEntity<>(comments);
-    ResponseEntity<List<ParsedComment>> response =
-            restTemplate.exchange(gitMinerURI, HttpMethod.POST, request,  new ParameterizedTypeReference<List<ParsedComment>>() {});
-    return response.getBody();
-    }
-
 
 }
 
