@@ -135,7 +135,7 @@ public class IssueService {
 
     public ParsedUser parseAuthor(User user) {
         if (user == null) {
-            return new ParsedUser(null, null, null, null, null); 
+            return null;
         }
         return new ParsedUser(
                 String.valueOf(user.getId()),
@@ -148,7 +148,7 @@ public class IssueService {
     
     public ParsedUser parseAssignee(Assignee user) {
         if (user == null) {
-            return new ParsedUser(null, null, null, null, null); 
+            return null;
         }
         return new ParsedUser(
                 String.valueOf(user.getId()),

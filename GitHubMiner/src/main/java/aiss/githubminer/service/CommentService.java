@@ -106,7 +106,7 @@ public class CommentService {
 
     public ParsedUser parseUser (User user){
         if (user == null) {
-            return new ParsedUser(null, null, null, null, null); 
+            return null;
         }
         ParsedUser newUser = new ParsedUser(
                 String.valueOf(user.getId()),
