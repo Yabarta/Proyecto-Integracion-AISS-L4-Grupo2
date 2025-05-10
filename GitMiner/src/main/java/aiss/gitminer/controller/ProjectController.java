@@ -49,4 +49,27 @@ public class ProjectController {
         return _project;
     }
 
+    //UPDATE http://localhost:8080/gitminer/projects
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}")
+    public void updateProject(@Valid @RequestBody Project updatedProject, @PathVariable String id) {
+        Optional<Project> p = repository.findById(id);
+        Project project = p.get();
+        project.setName(updatedProject.getName());
+        project.setWebUrl(updatedProject.getWebUrl());
+        project.setCommits(updatedProject.getCommits());
+        project.setIssues(updatedProject.getIssues());
+
+        repository.save(project);
+    }
+
+    //DELETE http://localhost:8080/gitminer/projects
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void deleteProject(@PathVariable String id) {
+        if(repository.existsById(id)) {
+            repository.deleteById(id);
+        }
+    }
+
 }
