@@ -9,6 +9,8 @@ import aiss.githubminer.model.issue.Issue;
 import aiss.githubminer.model.issue.Label;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -30,6 +32,8 @@ public class IssueService {
 
     @Value("${github.api.url}")
     private String githubApiUrl;
+    @Value("${github.token}")
+    private String githubToken;
 
     public List<ParsedIssue> getIssues(String owner, String repo, Integer page, Integer perPage,
                                        Integer sinceIssues, Integer maxPages) {
@@ -44,6 +48,10 @@ public class IssueService {
        
             String url = githubApiUrl + "/" + owner + "/" + repo + "/issues";
 
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + githubToken);
+            HttpEntity<String> entity = new HttpEntity<>(headers);
+
             UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(url)
                     .queryParam("since", since)
                     .queryParam("page", currentPage)
@@ -52,7 +60,7 @@ public class IssueService {
             ResponseEntity<Issue[]> response = restTemplate.exchange(
                     uriBuilder.toUriString(),
                     org.springframework.http.HttpMethod.GET,
-                    null,
+                    entity,
                     Issue[].class
             );
 

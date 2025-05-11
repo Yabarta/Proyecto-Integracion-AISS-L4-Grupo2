@@ -6,6 +6,8 @@ import aiss.githubminer.model.comment.Comment;
 import aiss.githubminer.model.comment.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -24,6 +26,9 @@ public class CommentService {
     @Value("${github.api.url}")
     private String githubApiUrl;
 
+    @Value("${github.token}")
+    private String githubToken;
+
     public List<ParsedComment> getComments(String owner, String repo, Long issue, Integer page,
     Integer perPage, Integer maxPages) {
 
@@ -34,6 +39,10 @@ public class CommentService {
 
             String url = githubApiUrl + "/" + owner + "/" + repo + "/issues/" + issue + "/comments";
 
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + githubToken);
+            HttpEntity<String> entity = new HttpEntity<>(headers);
+
             UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(url)
                     .queryParam("page", currentPage)
                     .queryParam("per_page", perPage);
@@ -41,7 +50,7 @@ public class CommentService {
             ResponseEntity<Comment[]> response = restTemplate.exchange(
                     uriBuilder.toUriString(),
                     org.springframework.http.HttpMethod.GET,
-                    null,
+                    entity,
                     Comment[].class
             );
 
