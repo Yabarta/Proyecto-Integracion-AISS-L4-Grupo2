@@ -52,9 +52,12 @@ public class ProjectController {
     //UPDATE http://localhost:8080/gitminer/projects
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public void updateProject(@Valid @RequestBody Project updatedProject, @PathVariable String id) {
-        Optional<Project> p = repository.findById(id);
-        Project project = p.get();
+    public void updateProject(@Valid @RequestBody Project updatedProject, @PathVariable String id) throws ProjectNotFoundException {
+        Optional<Project> existingProject = repository.findById(id);
+        if (!existingProject.isPresent()) {
+            throw new ProjectNotFoundException();
+        }
+        Project project = existingProject.get();
         project.setName(updatedProject.getName());
         project.setWebUrl(updatedProject.getWebUrl());
         project.setCommits(updatedProject.getCommits());
@@ -66,9 +69,11 @@ public class ProjectController {
     //DELETE http://localhost:8080/gitminer/projects
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void deleteProject(@PathVariable String id) {
+    public void deleteProject(@PathVariable String id) throws ProjectNotFoundException {
         if(repository.existsById(id)) {
             repository.deleteById(id);
+        } else {
+            throw new ProjectNotFoundException();
         }
     }
 
