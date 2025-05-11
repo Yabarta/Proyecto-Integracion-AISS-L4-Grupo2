@@ -19,7 +19,7 @@ class IssueServiceTest {
     @Test
     void getIssues() {
         List<ParsedIssue> issues = service.getIssues("spring-projects","spring-framework",
-                null,null,null,null,null);
+                null,null,null,null);
         assertFalse(issues.isEmpty(),"No issues found");
         System.out.println(issues);
     }

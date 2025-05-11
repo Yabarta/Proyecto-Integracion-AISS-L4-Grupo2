@@ -27,27 +27,16 @@ public class IssueService {
 
     @Autowired
     RestTemplate restTemplate;
-
-    @Value("${github.api.url}")
-    private String githubApiUrl;
-
-    @Value("${github.token}")
-    private String githubToken;
     @Autowired
     private CommentService commentService;
 
+    @Value("${github.api.url}")
+    private String githubApiUrl;
+    @Value("${github.token}")
+    private String githubToken;
+
     public List<ParsedIssue> getIssues(String owner, String repo, Integer page, Integer perPage,
-     Integer nIssues, Integer sinceIssues, Integer maxPages) {
-        // Valores por defecto
-        if (sinceIssues == null) {
-            sinceIssues = 20; 
-        }
-        if (maxPages == null) {
-            maxPages = 2;
-        }
-        if (perPage == null) {
-            perPage = 10;
-        }
+                                       Integer sinceIssues, Integer maxPages) {
 
         LocalDate sinceDate = LocalDate.now().minusDays(sinceIssues);
         String since = sinceDate.format(DateTimeFormatter.ISO_DATE);
@@ -67,8 +56,6 @@ public class IssueService {
                     .queryParam("since", since)
                     .queryParam("page", currentPage)
                     .queryParam("per_page", perPage);
-
-            System.out.println("URL: " + uriBuilder.toUriString());
 
             ResponseEntity<Issue[]> response = restTemplate.exchange(
                     uriBuilder.toUriString(),
@@ -91,17 +78,13 @@ public class IssueService {
 
         allIssues.forEach(issue -> {
             List<ParsedComment> parsedComments = commentService
-            .getComments(owner, repo, issue.getNumber(), null, null, null, null);
+            .getComments(owner, repo, issue.getNumber(), null, null, maxPages);
             for (ParsedIssue parsed : parsedIssues) {
                 if (parsed.getId().equals(String.valueOf(issue.getId()))) {
                     parsed.setComments(parsedComments);
                 }
             }
         });
-
-        if (nIssues != null && nIssues < parsedIssues.size()) {
-            return parsedIssues.subList(0, nIssues);
-        }
 
         return parsedIssues;
 

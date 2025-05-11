@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "href"
 })
 
-public class Self__2 {
+public class Issues {
 
     @JsonProperty("href")
     private String href;
@@ -29,7 +29,7 @@ public class Self__2 {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Self__2 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Issues.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("href");
         sb.append('=');
         sb.append(((this.href == null)?"<null>":this.href));

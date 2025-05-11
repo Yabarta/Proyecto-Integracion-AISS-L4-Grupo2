@@ -21,7 +21,7 @@ public class ProjectController {
     private ProjectService projectService;
     @Autowired
     private RestTemplate restTemplate;
-    private final String gitMinerURI = "http://localhost:8080/gitminer/projects";
+    private final String gitMinerUri = "http://localhost:8080/gitminer/projects";
 
     @Operation(summary = "Obtener el proyecto dado el propietario y el repositorio")
     @ApiResponse(responseCode = "200", description = "Obtención del proyecto")
@@ -31,12 +31,9 @@ public class ProjectController {
                                     @RequestParam(defaultValue = "2") Integer maxPages,
                                     @RequestParam(required=false) Integer page,
                                     @RequestParam(required=false) Integer perPage,
-                                    @RequestParam(required=false) Integer nIssues,
                                     @RequestParam(defaultValue = "20") Integer sinceIssues,
-                                    @RequestParam(required=false) Integer nCommits,
                                     @RequestParam(defaultValue = "2") Integer sinceCommits){
-        return projectService.getProjectData(owner, repoName,maxPages, page, perPage, nIssues,
-                sinceIssues, nCommits, sinceCommits);
+        return projectService.getProjectData(owner, repoName,maxPages, page, perPage, sinceIssues, sinceCommits);
     }
 
     @Operation(summary = "Manda el proyecto a crear dado el propietario y el repositorio")
@@ -47,15 +44,13 @@ public class ProjectController {
                                      @RequestParam(defaultValue = "2") Integer maxPages,
                                      @RequestParam(required=false) Integer page,
                                      @RequestParam(required=false) Integer perPage,
-                                     @RequestParam(required=false) Integer nIssues,
                                      @RequestParam(defaultValue = "20") Integer sinceIssues,
-                                     @RequestParam(required=false) Integer nCommits,
                                      @RequestParam(defaultValue = "2") Integer sinceCommits) {
-        ParsedProject project = projectService.getProjectData(owner, repoName,maxPages, page, perPage, nIssues,
-                sinceIssues, nCommits, sinceCommits);
+        ParsedProject project = projectService.getProjectData(owner, repoName,maxPages, page, perPage,
+                sinceIssues, sinceCommits);
         HttpEntity<ParsedProject> request = new HttpEntity<>(project);
         ResponseEntity<ParsedProject> response =
-                restTemplate.exchange(gitMinerURI, HttpMethod.POST, request, ParsedProject.class);
+                restTemplate.exchange(gitMinerUri, HttpMethod.POST, request, ParsedProject.class);
         return response.getBody();
     }
 

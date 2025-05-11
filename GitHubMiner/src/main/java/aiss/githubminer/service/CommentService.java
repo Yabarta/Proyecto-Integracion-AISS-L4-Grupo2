@@ -30,27 +30,14 @@ public class CommentService {
     private String githubToken;
 
     public List<ParsedComment> getComments(String owner, String repo, Long issue, Integer page,
-    Integer perPage, Integer nComments, Integer maxPages) {
-        // Valores por defecto
-        if (maxPages == null) {
-            maxPages = 2;
-        }
-        if (perPage == null) {
-            perPage = 10;
-        }
+    Integer perPage, Integer maxPages) {
 
         List<Comment> allComments = new ArrayList<>();
         int currentPage = (page != null) ? page : 1;
 
         while (currentPage <= maxPages) {
 
-            String url = githubApiUrl + "/" + owner + "/" + repo + "/issues/";
-
-            if(issue == null){
-                url += "comments";
-            } else {
-                url += issue + "/comments";
-            }
+            String url = githubApiUrl + "/" + owner + "/" + repo + "/issues/" + issue + "/comments";
 
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", "Bearer " + githubToken);
@@ -59,9 +46,6 @@ public class CommentService {
             UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(url)
                     .queryParam("page", currentPage)
                     .queryParam("per_page", perPage);
-            
-            System.out.println("URL: " + uriBuilder.toUriString());
-            System.out.println("Issue: " + issue);
 
             ResponseEntity<Comment[]> response = restTemplate.exchange(
                     uriBuilder.toUriString(),
@@ -81,10 +65,6 @@ public class CommentService {
         }
 
         List<ParsedComment> parsedComments = parseComments(allComments);
-
-        if (nComments != null && nComments < allComments.size()) {
-            return parsedComments.subList(0, nComments);
-        }
 
         return parsedComments;
     }

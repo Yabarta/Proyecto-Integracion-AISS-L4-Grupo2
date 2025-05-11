@@ -25,28 +25,17 @@ public class CommitService {
 
     @Value("${github.api.url}")
     private String githubApiUrl;
-
     @Value("${github.token}")
     private String githubToken;
 
     public List<ParsedCommit> getCommits(String owner, String repo, Integer page, Integer perPage,
-    Integer nCommits, Integer sinceCommits, Integer maxPages) {
-        // Valores por defecto
-        if (sinceCommits == null) {
-            sinceCommits = 2; 
-        }
-        if (maxPages == null) {
-            maxPages = 2;
-        }
-        if (perPage == null) {
-            perPage = 10;
-        }
+                                         Integer sinceCommits, Integer maxPages) {
 
         LocalDate sinceDate = LocalDate.now().minusDays(sinceCommits);
         String since = sinceDate.format(DateTimeFormatter.ISO_DATE);
 
         List<Commit> allCommits = new ArrayList<>();
-        int currentPage = (page != null) ? page : 1;
+        int currentPage = (page != null) ? page : 0;
 
         while (currentPage <= maxPages) {
    
@@ -80,23 +69,20 @@ public class CommitService {
 
         List<ParsedCommit> parsedCommits = parseCommit(allCommits);
 
-        if (nCommits != null && nCommits < parsedCommits.size()) {
-            return parsedCommits.subList(0, nCommits);
-        }
-
         return parsedCommits;
     }
 
     public List<ParsedCommit> parseCommit(List<Commit> commits) {
         List<ParsedCommit> data = new ArrayList<>();
         for (Commit commit : commits) {
-            String message = commit.getCommit().getMessage();
-            String title = message.split("\n", 2)[0]; 
+            String messageRaw = commit.getCommit().getMessage();
+            String[] message = messageRaw.split("\n", 2);
+            String title =  message[0];
 
             ParsedCommit newCommit = new ParsedCommit(
                     commit.getSha(),
                     title,
-                    message,
+                    messageRaw,
                     commit.getCommit().getAuthor().getName(),
                     commit.getCommit().getAuthor().getEmail(),
                     commit.getCommit().getAuthor().getDate(),

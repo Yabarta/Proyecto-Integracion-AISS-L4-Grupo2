@@ -8,13 +8,26 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
+    "name",
     "href"
 })
 
-public class Self__2 {
+public class Clone {
 
+    @JsonProperty("name")
+    private String name;
     @JsonProperty("href")
     private String href;
+
+    @JsonProperty("name")
+    public String getName() {
+        return name;
+    }
+
+    @JsonProperty("name")
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @JsonProperty("href")
     public String getHref() {
@@ -29,7 +42,11 @@ public class Self__2 {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Self__2 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Clone.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append("name");
+        sb.append('=');
+        sb.append(((this.name == null)?"<null>":this.name));
+        sb.append(',');
         sb.append("href");
         sb.append('=');
         sb.append(((this.href == null)?"<null>":this.href));

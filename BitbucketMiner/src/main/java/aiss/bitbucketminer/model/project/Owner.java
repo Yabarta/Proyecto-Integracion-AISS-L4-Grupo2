@@ -1,10 +1,20 @@
 
 package aiss.bitbucketminer.model.project;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown=true)
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "display_name",
+    "links",
+    "type",
+    "uuid",
+    "username"
+})
+
 public class Owner {
 
     @JsonProperty("display_name")
