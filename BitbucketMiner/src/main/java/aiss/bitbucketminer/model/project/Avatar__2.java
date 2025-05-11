@@ -1,11 +1,11 @@
 
-package aiss.bitbucketminer.model;
+package aiss.bitbucketminer.model.project;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Html__2 {
+public class Avatar__2 {
 
     @JsonProperty("href")
     private String href;
@@ -23,7 +23,7 @@ public class Html__2 {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Html__2 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Avatar__2 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("href");
         sb.append('=');
         sb.append(((this.href == null)?"<null>":this.href));

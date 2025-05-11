@@ -1,57 +1,53 @@
 
-package aiss.bitbucketminer.model;
+package aiss.bitbucketminer.model.project;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Links__1 {
+public class Links__2 {
 
-    @JsonProperty("self")
-    private Self__1 self;
     @JsonProperty("avatar")
-    private Avatar__1 avatar;
+    private Avatar__2 avatar;
     @JsonProperty("html")
-    private Html__1 html;
-
+    private Html__2 html;
     @JsonProperty("self")
-    public Self__1 getSelf() {
-        return self;
-    }
-
-    @JsonProperty("self")
-    public void setSelf(Self__1 self) {
-        this.self = self;
-    }
+    private Self__2 self;
 
     @JsonProperty("avatar")
-    public Avatar__1 getAvatar() {
+    public Avatar__2 getAvatar() {
         return avatar;
     }
 
     @JsonProperty("avatar")
-    public void setAvatar(Avatar__1 avatar) {
+    public void setAvatar(Avatar__2 avatar) {
         this.avatar = avatar;
     }
 
     @JsonProperty("html")
-    public Html__1 getHtml() {
+    public Html__2 getHtml() {
         return html;
     }
 
     @JsonProperty("html")
-    public void setHtml(Html__1 html) {
+    public void setHtml(Html__2 html) {
         this.html = html;
+    }
+
+    @JsonProperty("self")
+    public Self__2 getSelf() {
+        return self;
+    }
+
+    @JsonProperty("self")
+    public void setSelf(Self__2 self) {
+        this.self = self;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Links__1 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("self");
-        sb.append('=');
-        sb.append(((this.self == null)?"<null>":this.self));
-        sb.append(',');
+        sb.append(Links__2 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("avatar");
         sb.append('=');
         sb.append(((this.avatar == null)?"<null>":this.avatar));
@@ -59,6 +55,10 @@ public class Links__1 {
         sb.append("html");
         sb.append('=');
         sb.append(((this.html == null)?"<null>":this.html));
+        sb.append(',');
+        sb.append("self");
+        sb.append('=');
+        sb.append(((this.self == null)?"<null>":this.self));
         sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');

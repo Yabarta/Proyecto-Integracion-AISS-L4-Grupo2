@@ -1,53 +1,53 @@
 
-package aiss.bitbucketminer.model;
+package aiss.bitbucketminer.model.project;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Links__3 {
+public class Links {
 
     @JsonProperty("self")
-    private Self__3 self;
+    private Self self;
     @JsonProperty("html")
-    private Html__3 html;
+    private Html html;
     @JsonProperty("avatar")
-    private Avatar__3 avatar;
+    private Avatar avatar;
 
     @JsonProperty("self")
-    public Self__3 getSelf() {
+    public Self getSelf() {
         return self;
     }
 
     @JsonProperty("self")
-    public void setSelf(Self__3 self) {
+    public void setSelf(Self self) {
         this.self = self;
     }
 
     @JsonProperty("html")
-    public Html__3 getHtml() {
+    public Html getHtml() {
         return html;
     }
 
     @JsonProperty("html")
-    public void setHtml(Html__3 html) {
+    public void setHtml(Html html) {
         this.html = html;
     }
 
     @JsonProperty("avatar")
-    public Avatar__3 getAvatar() {
+    public Avatar getAvatar() {
         return avatar;
     }
 
     @JsonProperty("avatar")
-    public void setAvatar(Avatar__3 avatar) {
+    public void setAvatar(Avatar avatar) {
         this.avatar = avatar;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Links__3 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Links.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("self");
         sb.append('=');
         sb.append(((this.self == null)?"<null>":this.self));

@@ -1,6 +1,5 @@
 package aiss.bitbucketminer.model;
 
-import aiss.bitbucketminer.model.Comment;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,5 +1,5 @@
 
-package aiss.bitbucketminer.model;
+package aiss.bitbucketminer.model.project;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
