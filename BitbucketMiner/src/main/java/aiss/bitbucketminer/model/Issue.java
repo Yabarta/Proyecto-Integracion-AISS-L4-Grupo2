@@ -23,7 +23,6 @@ public class Issue {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Issues.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("href");
         sb.append('=');
         sb.append(((this.href == null)?"<null>":this.href));

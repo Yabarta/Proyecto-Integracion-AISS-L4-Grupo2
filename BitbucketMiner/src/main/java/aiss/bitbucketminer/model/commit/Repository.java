@@ -1,7 +1,7 @@
 
 package aiss.bitbucketminer.model.commit;
 
-import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "name",
     "uuid"
 })
-@Generated("jsonschema2pojo")
+
 public class Repository {
 
     @JsonProperty("type")

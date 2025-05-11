@@ -28,13 +28,10 @@ public class CommitService {
     @Value("${bitbucket.api.url}")
     private String bitbucketApiUrl;
 
-    public List<ParsedCommit> getCommits(String workspace, String repo_slug, Integer page, Integer perPage,
+    public List<ParsedCommit> getCommits(String workspace, String repo_slug,
                                          Integer nCommits, Integer maxPages) {
         if (maxPages == null) {
             maxPages = 2;
-        }
-        if (perPage == null) {
-            perPage = 10;
         }
 
         List<CommitList> allCommits = new ArrayList<>();

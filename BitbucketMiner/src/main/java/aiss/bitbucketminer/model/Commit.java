@@ -24,7 +24,6 @@ public class Commit {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Commits.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("href");
         sb.append('=');
         sb.append(((this.href == null)?"<null>":this.href));

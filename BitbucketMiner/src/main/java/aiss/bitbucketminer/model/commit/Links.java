@@ -1,7 +1,7 @@
 
 package aiss.bitbucketminer.model.commit;
 
-import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "statuses",
     "patch"
 })
-@Generated("jsonschema2pojo")
+
 public class Links {
 
     @JsonProperty("self")

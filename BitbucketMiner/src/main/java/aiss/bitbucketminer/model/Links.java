@@ -13,10 +13,6 @@ public class Links {
     private Html html;
     @JsonProperty("avatar")
     private Avatar avatar;
-    @JsonProperty("commits")
-    private Commits commits;
-    @JsonProperty("issues")
-    private Issues issues;
 
     @JsonProperty("self")
     public Self getSelf() {
@@ -48,26 +44,6 @@ public class Links {
         this.avatar = avatar;
     }
 
-    @JsonProperty("commits")
-    public Commits getCommits() {
-        return commits;
-    }
-
-    @JsonProperty("commits")
-    public void setCommits(Commits commits) {
-        this.commits = commits;
-    }
-
-    @JsonProperty("issues")
-    public Issues getIssues() {
-        return issues;
-    }
-
-    @JsonProperty("issues")
-    public void setIssues(Issues issues) {
-        this.issues = issues;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -83,14 +59,6 @@ public class Links {
         sb.append("avatar");
         sb.append('=');
         sb.append(((this.avatar == null)?"<null>":this.avatar));
-        sb.append(',');
-        sb.append("commits");
-        sb.append('=');
-        sb.append(((this.commits == null)?"<null>":this.commits));
-        sb.append(',');
-        sb.append("issues");
-        sb.append('=');
-        sb.append(((this.issues == null)?"<null>":this.issues));
         sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');

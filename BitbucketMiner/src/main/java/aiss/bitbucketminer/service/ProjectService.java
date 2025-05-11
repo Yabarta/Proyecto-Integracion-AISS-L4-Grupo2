@@ -31,15 +31,8 @@ public class ProjectService {
     @Autowired
     private IssueService issueService;
 
-
-    public ParsedProject getProjectData(String workspace, String repo_slug, Integer maxPages, Integer page,
-                                        Integer perPage, Integer nIssues, Integer nCommits) {
-        if (maxPages == null) {
-            maxPages = 2;
-        }
-        if (perPage == null) {
-            perPage = 10;
-        }
+    public ParsedProject getProjectData(String workspace, String repo_slug,
+                                        Integer maxPages, Integer nCommits, Integer nIssues) {
 
         String url = bitbucketApiUrl + "/" + workspace + "/" + repo_slug;
 
@@ -57,8 +50,8 @@ public class ProjectService {
 
         ParsedProject parsedProject = parseProject(response.getBody());
 
-        List<ParsedCommit> commits = commitService.getCommits(workspace,repo_slug,page,perPage,nCommits,maxPages);
-        List<ParsedIssue> issues = issueService.getIssues(workspace,repo_slug,page,perPage,nIssues,maxPages);
+        List<ParsedCommit> commits = commitService.getCommits(workspace,repo_slug,nCommits,maxPages);
+        List<ParsedIssue> issues = issueService.getIssues(workspace,repo_slug,nIssues,maxPages);
 
         parsedProject.setCommits(commits);
         parsedProject.setIssues(issues);

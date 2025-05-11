@@ -1,7 +1,7 @@
 
 package aiss.bitbucketminer.model.comment;
 
-import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "self",
     "html"
 })
-@Generated("jsonschema2pojo")
+
 public class Links__3 {
 
     @JsonProperty("self")

@@ -59,9 +59,10 @@ public class CommentService {
     public List<ParsedComment> parseComments (CommentList comments) {
         List<ParsedComment> data = new ArrayList<>();
         for (Comment comment : comments.getValues()) {
+            String body = comment.getContent().getHtml().isEmpty() ? "[No message]" : comment.getContent().getHtml();
             ParsedComment newComment = new ParsedComment(
                     String.valueOf(comment.getId()),
-                    comment.getContent().getRaw(),
+                    body,
                     parseAuthor(comment.getUser()),
                     String.valueOf(comment.getCreatedOn()),
                     String.valueOf(comment.getUpdatedOn())

@@ -37,13 +37,9 @@ public class IssueService {
     private CommentService commentService;
 
     public List<ParsedIssue> getIssues(String workspace, String repo_slug,
-                                       Integer page, Integer perPage,
                                        Integer nIssues, Integer maxPages) {
         if (maxPages == null) {
             maxPages = 2;
-        }
-        if (perPage == null) {
-            perPage = 10;
         }
 
         String url = bitbucketApiUrl + "/" + workspace + "/" + repo_slug + "/issues";
@@ -92,6 +88,7 @@ public class IssueService {
                     parseAssignee(issue.getAssignee()));
 
             List<ParsedComment> comments = commentService.getComments(workspace,repo_slug,newIssue.getId());
+            newIssue.setComments(comments);
             data.add(newIssue);
         }
         return data;
@@ -115,10 +112,7 @@ public class IssueService {
 
     public ParsedUser parseAssignee(Assignee asignee) {
         ParsedUser user = null;
-        if (asignee == null) {
-            user = new ParsedUser(null, null, null, null, null);
-        }
-        else {
+        if (asignee != null) {
             user = new ParsedUser(
                     String.valueOf(asignee.getUuid()),
                     asignee.getNickname(),

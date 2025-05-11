@@ -61,7 +61,6 @@ public class Comment {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Comments.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("values");
         sb.append('=');
         sb.append(((this.values == null)?"<null>":this.values));

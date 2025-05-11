@@ -20,7 +20,7 @@ public class IssueController {
     //GET http://localhost:8080/gitminer/issues
     @GetMapping
     public List<Issue> findAll(@RequestParam(required=false) String authorId,
-                               @RequestParam(required = false) String state) {
+                               @RequestParam(required=false) String state) {
         List<Issue> issues;
         if (authorId != null) {
             issues = repository.findByAuthorId(authorId);
