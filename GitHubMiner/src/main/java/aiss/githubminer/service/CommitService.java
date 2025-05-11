@@ -78,12 +78,11 @@ public class CommitService {
             String messageRaw = commit.getCommit().getMessage();
             String[] message = messageRaw.split("\n", 2);
             String title =  message[0];
-            String content = message[1];
 
             ParsedCommit newCommit = new ParsedCommit(
                     commit.getSha(),
                     title,
-                    content,
+                    messageRaw,
                     commit.getCommit().getAuthor().getName(),
                     commit.getCommit().getAuthor().getEmail(),
                     commit.getCommit().getAuthor().getDate(),

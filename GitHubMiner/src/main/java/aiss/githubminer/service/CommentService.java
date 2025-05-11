@@ -30,7 +30,7 @@ public class CommentService {
     private String githubToken;
 
     public List<ParsedComment> getComments(String owner, String repo, Long issue, Integer page,
-    Integer perPage, Integer nComments, Integer maxPages) {
+    Integer perPage, Integer maxPages) {
 
         List<Comment> allComments = new ArrayList<>();
         int currentPage = (page != null) ? page : 1;
@@ -46,9 +46,6 @@ public class CommentService {
             UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(url)
                     .queryParam("page", currentPage)
                     .queryParam("per_page", perPage);
-            
-            System.out.println("URL: " + uriBuilder.toUriString());
-            System.out.println("Issue: " + issue);
 
             ResponseEntity<Comment[]> response = restTemplate.exchange(
                     uriBuilder.toUriString(),
@@ -68,10 +65,6 @@ public class CommentService {
         }
 
         List<ParsedComment> parsedComments = parseComments(allComments);
-
-        if (nComments != null && nComments < allComments.size()) {
-            return parsedComments.subList(0, nComments);
-        }
 
         return parsedComments;
     }

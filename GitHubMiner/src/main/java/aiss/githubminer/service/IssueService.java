@@ -57,8 +57,6 @@ public class IssueService {
                     .queryParam("page", currentPage)
                     .queryParam("per_page", perPage);
 
-            System.out.println("URL: " + uriBuilder.toUriString());
-
             ResponseEntity<Issue[]> response = restTemplate.exchange(
                     uriBuilder.toUriString(),
                     org.springframework.http.HttpMethod.GET,
@@ -80,7 +78,7 @@ public class IssueService {
 
         allIssues.forEach(issue -> {
             List<ParsedComment> parsedComments = commentService
-            .getComments(owner, repo, issue.getNumber(), null, null, null, null);
+            .getComments(owner, repo, issue.getNumber(), null, null, maxPages);
             for (ParsedIssue parsed : parsedIssues) {
                 if (parsed.getId().equals(String.valueOf(issue.getId()))) {
                     parsed.setComments(parsedComments);
