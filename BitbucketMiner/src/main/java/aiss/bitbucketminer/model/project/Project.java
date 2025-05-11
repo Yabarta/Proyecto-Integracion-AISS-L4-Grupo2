@@ -1,7 +1,7 @@
 
 package aiss.bitbucketminer.model.project;
 
-import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "has_issues",
     "has_wiki"
 })
-@Generated("jsonschema2pojo")
+
 public class Project {
 
     @JsonProperty("type")
