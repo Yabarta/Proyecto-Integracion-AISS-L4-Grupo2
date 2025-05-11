@@ -6,6 +6,11 @@ import aiss.gitminer.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -14,18 +19,26 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/gitminer/projects")
+@Tag(name = "Projects", description = "Operaciones CRUD con los proyectos")
 public class ProjectController {
 
     @Autowired
     ProjectRepository repository;
 
     //GET http://localhost:8080/gitminer/projects
+    @Operation(summary = "Obtener la lista de proyectos")
+    @ApiResponse(responseCode = "200", description = "Obtención de los proyectos")
     @GetMapping
     public List<Project> findAll() {
         return repository.findAll();
     }
 
     //GET http://localhost:8080/gitminer/projects/{id}
+    @Operation(summary = "Obtener un proyecto en concreto")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Proyecto obtenido"),
+            @ApiResponse(responseCode = "404", description = "No se ha encontrado el proyecto")
+    })
     @GetMapping("/{id}")
     public Project findOne(@PathVariable String id) throws ProjectNotFoundException {
         Optional<Project> project = repository.findById(id);
@@ -36,6 +49,8 @@ public class ProjectController {
     }
 
     //POST http://localhost:8080/gitminer/projects
+    @Operation(summary = "Creación de un proyecto")
+    @ApiResponse(responseCode = "201", description = "Proyecto creado")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Project create(@Valid @RequestBody Project project) {
@@ -50,6 +65,8 @@ public class ProjectController {
     }
 
     //UPDATE http://localhost:8080/gitminer/projects
+    @Operation(summary = "Actualización de un proyecto")
+    @ApiResponse(responseCode = "204", description = "Proyecto actualizado")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     public void updateProject(@Valid @RequestBody Project updatedProject, @PathVariable String id) throws ProjectNotFoundException {
@@ -67,6 +84,8 @@ public class ProjectController {
     }
 
     //DELETE http://localhost:8080/gitminer/projects
+    @Operation(summary = "Eliminación de un proyecto")
+    @ApiResponse(responseCode = "204", description = "Proyecto eliminado")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deleteProject(@PathVariable String id) throws ProjectNotFoundException {
