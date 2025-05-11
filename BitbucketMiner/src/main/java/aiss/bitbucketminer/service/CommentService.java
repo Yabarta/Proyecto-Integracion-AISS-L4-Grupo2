@@ -7,12 +7,9 @@ import aiss.bitbucketminer.model.comment.CommentList;
 import aiss.bitbucketminer.model.comment.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,32 +25,16 @@ public class CommentService {
 
     public List<ParsedComment> getComments(String workspace, String repo_slug, String issue_id) {
 
-        String url = bitbucketApiUrl + "/" + workspace + "/" + repo_slug + "/issues/";
-
-        if(issue_id == null){
-            url += "comments";
-        } else {
-            url += issue_id + "/comments";
-        }
-
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(url);
-
-        System.out.println("URL: " + uriBuilder.toUriString());
-        System.out.println("Issue: " + issue_id);
+        String uri = bitbucketApiUrl + "/" + workspace + "/" + repo_slug + "/issues/" + issue_id + "/comments" ;
 
         ResponseEntity<CommentList> response = restTemplate.exchange(
-                uriBuilder.toUriString(),
+                uri,
                 org.springframework.http.HttpMethod.GET,
-                entity,
+                null,
                 CommentList.class
         );
 
-        List<ParsedComment> parsedComments = new ArrayList<>(parseComments(response.getBody()));
-        
-        return parsedComments;
+        return parseComments(response.getBody());
     }
 
     public List<ParsedComment> parseComments (CommentList comments) {
@@ -74,10 +55,7 @@ public class CommentService {
 
     public ParsedUser parseAuthor(User user) {
         ParsedUser author = null;
-        if (user == null) {
-            author = new ParsedUser(null, null, null, null, null);
-        }
-        else {
+        if (user != null) {
             author = new ParsedUser(
                     String.valueOf(user.getUuid()),
                     user.getNickname(),

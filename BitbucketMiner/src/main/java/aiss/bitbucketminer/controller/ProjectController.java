@@ -36,9 +36,14 @@ public class ProjectController {
                                      @RequestParam(defaultValue = "2") Integer maxPages) {
         ParsedProject project = projectService.getProjectData(workspace, repoSlug, maxPages, nCommits, nIssues);
         HttpEntity<ParsedProject> request = new HttpEntity<>(project);
-        String gitMinerURI = "http://localhost:8080/gitminer/projects";
+        String gitMinerUri = "http://localhost:8080/gitminer/projects";
         ResponseEntity<ParsedProject> response =
-                restTemplate.exchange(gitMinerURI, HttpMethod.POST, request, ParsedProject.class);
+                restTemplate.exchange(
+                        gitMinerUri,
+                        HttpMethod.POST,
+                        request,
+                        ParsedProject.class
+                );
         return response.getBody();
     }
 

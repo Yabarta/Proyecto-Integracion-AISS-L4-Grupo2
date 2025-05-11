@@ -5,18 +5,12 @@ import aiss.bitbucketminer.model.commit.CommitList;
 import aiss.bitbucketminer.model.ParsedCommit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -30,23 +24,13 @@ public class CommitService {
 
     public List<ParsedCommit> getCommits(String workspace, String repo_slug,
                                          Integer nCommits, Integer maxPages) {
-        if (maxPages == null) {
-            maxPages = 2;
-        }
 
-        List<CommitList> allCommits = new ArrayList<>();
-
-        String url = bitbucketApiUrl + "/" + workspace + "/" + repo_slug + "/commits";
-
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(url);
+        String uri = bitbucketApiUrl + "/" + workspace + "/" + repo_slug + "/commits";
 
         ResponseEntity<CommitList> response = restTemplate.exchange(
-                uriBuilder.toUriString(),
+                uri,
                 HttpMethod.GET,
-                entity,
+                null,
                 CommitList.class
         );
 

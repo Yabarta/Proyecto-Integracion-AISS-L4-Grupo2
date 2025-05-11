@@ -1,7 +1,6 @@
 package aiss.bitbucketminer.service;
 
 import aiss.bitbucketminer.model.ParsedComment;
-import aiss.bitbucketminer.model.ParsedCommit;
 import aiss.bitbucketminer.model.ParsedIssue;
 import aiss.bitbucketminer.model.ParsedUser;
 import aiss.bitbucketminer.model.issue.Assignee;
@@ -10,18 +9,12 @@ import aiss.bitbucketminer.model.issue.IssueList;
 import aiss.bitbucketminer.model.issue.Reporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -38,21 +31,13 @@ public class IssueService {
 
     public List<ParsedIssue> getIssues(String workspace, String repo_slug,
                                        Integer nIssues, Integer maxPages) {
-        if (maxPages == null) {
-            maxPages = 2;
-        }
 
-        String url = bitbucketApiUrl + "/" + workspace + "/" + repo_slug + "/issues";
-
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(url);
+        String uri = bitbucketApiUrl + "/" + workspace + "/" + repo_slug + "/issues";
 
         ResponseEntity<IssueList> response = restTemplate.exchange(
-                uriBuilder.toUriString(),
+                uri,
                 HttpMethod.GET,
-                entity,
+                null,
                 IssueList.class
         );
 
@@ -96,16 +81,13 @@ public class IssueService {
 
     public ParsedUser parseAuthor(Reporter reporter) {
         ParsedUser user = null;
-        if (reporter == null) {
-            user = new ParsedUser(null, null, null, null, null);
-        }
-        else {
-        user = new ParsedUser(
-                String.valueOf(reporter.getUuid()),
-                reporter.getNickname(),
-                reporter.getDisplayName(),
-                reporter.getLinks().getAvatar().getHref(),
-                reporter.getLinks().getHtml().getHref());
+        if (reporter != null) {
+            user = new ParsedUser(
+                    String.valueOf(reporter.getUuid()),
+                    reporter.getNickname(),
+                    reporter.getDisplayName(),
+                    reporter.getLinks().getAvatar().getHref(),
+                    reporter.getLinks().getHtml().getHref());
         }
         return user;
     }
