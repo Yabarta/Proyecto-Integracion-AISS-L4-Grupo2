@@ -3,7 +3,7 @@ package aiss.bitbucketminer.service;
 import aiss.bitbucketminer.model.ParsedCommit;
 import aiss.bitbucketminer.model.ParsedIssue;
 import aiss.bitbucketminer.model.ParsedProject;
-import aiss.bitbucketminer.model.project.Project;
+import aiss.bitbucketminer.model.project.Project__1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
@@ -31,12 +31,12 @@ public class ProjectService {
 
         String uri = bitbucketApiUrl + "/" + workspace + "/" + repo_slug;
 
-        ResponseEntity<Project> response =
+        ResponseEntity<Project__1> response =
                 restTemplate.exchange(
                     uri,
                     HttpMethod.GET,
                     null,
-                    Project.class
+                    Project__1.class
                 );
 
         ParsedProject parsedProject = parseProject(response.getBody());
@@ -50,7 +50,7 @@ public class ProjectService {
         return parsedProject;
     }
 
-    public ParsedProject parseProject(Project project) {
+    public ParsedProject parseProject(Project__1 project) {
         return new ParsedProject(
                 String.valueOf(project.getUuid()),
                 project.getName(),
