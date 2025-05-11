@@ -2,7 +2,6 @@ package aiss.githubminer.controller;
 
 import aiss.githubminer.model.ParsedProject;
 import aiss.githubminer.service.ProjectService;
-import aiss.githubminer.model.project.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -19,7 +18,7 @@ public class ProjectController {
     private ProjectService projectService;
     @Autowired
     private RestTemplate restTemplate;
-    private final String gitMinerURI = "http://localhost:8080/gitminer/projects";
+    private final String gitMinerUri = "http://localhost:8080/gitminer/projects";
 
     @GetMapping("/{owner}/{repoName}")
     public ParsedProject getProject(@PathVariable String owner,
@@ -27,12 +26,9 @@ public class ProjectController {
                                     @RequestParam(defaultValue = "2") Integer maxPages,
                                     @RequestParam(required=false) Integer page,
                                     @RequestParam(required=false) Integer perPage,
-                                    @RequestParam(required=false) Integer nIssues,
                                     @RequestParam(defaultValue = "20") Integer sinceIssues,
-                                    @RequestParam(required=false) Integer nCommits,
                                     @RequestParam(defaultValue = "2") Integer sinceCommits){
-        return projectService.getProjectData(owner, repoName,maxPages, page, perPage, nIssues,
-                sinceIssues, nCommits, sinceCommits);
+        return projectService.getProjectData(owner, repoName,maxPages, page, perPage, sinceIssues, sinceCommits);
     }
 
     @PostMapping("/{owner}/{repoName}")
@@ -41,15 +37,13 @@ public class ProjectController {
                                      @RequestParam(defaultValue = "2") Integer maxPages,
                                      @RequestParam(required=false) Integer page,
                                      @RequestParam(required=false) Integer perPage,
-                                     @RequestParam(required=false) Integer nIssues,
                                      @RequestParam(defaultValue = "20") Integer sinceIssues,
-                                     @RequestParam(required=false) Integer nCommits,
                                      @RequestParam(defaultValue = "2") Integer sinceCommits) {
-        ParsedProject project = projectService.getProjectData(owner, repoName,maxPages, page, perPage, nIssues,
-                sinceIssues, nCommits, sinceCommits);
+        ParsedProject project = projectService.getProjectData(owner, repoName,maxPages, page, perPage,
+                sinceIssues, sinceCommits);
         HttpEntity<ParsedProject> request = new HttpEntity<>(project);
         ResponseEntity<ParsedProject> response =
-                restTemplate.exchange(gitMinerURI, HttpMethod.POST, request, ParsedProject.class);
+                restTemplate.exchange(gitMinerUri, HttpMethod.POST, request, ParsedProject.class);
         return response.getBody();
     }
 

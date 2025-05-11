@@ -19,7 +19,7 @@ class ProjectServiceTest {
     @DisplayName("Get project data")
     void getProjectData() {
         ParsedProject project = service.getProjectData("spring-projects","spring-framework",null,
-                null,null,null,null,null,null);
+                null,null,null,null);
         assertNotNull(project,"No project found");
         System.out.println(project);
     }
