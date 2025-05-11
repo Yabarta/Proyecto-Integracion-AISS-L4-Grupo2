@@ -11,16 +11,12 @@ public class ParsedIssue {
 
     @JsonProperty("id")
     private String id;
-    @JsonProperty("ref_Id")
-    private Long ref_Id;
     @JsonProperty("title")
     private String title;
     @JsonProperty("description")
     private String description;
     @JsonProperty("state")
     private String state;
-    @JsonProperty("web_url")
-    private String web_url;
     @JsonProperty("created_at")
     private String created_at;
     @JsonProperty("updated_at")
@@ -38,22 +34,20 @@ public class ParsedIssue {
     @JsonProperty("assignee")
     private ParsedUser assignee;
 
-    public ParsedIssue(String id, Long ref_Id, String title, String description, String state, String web_url,
-                       String created_at, String updated_at, String closed_at, List<String> labels,
-                       ParsedUser author, ParsedUser assignee, Integer votes) {
+    public ParsedIssue(String id, String title, String description, String state, String created_at,
+                       String updated_at, String closed_at, List<String> labels, Integer votes,
+                       ParsedUser author, ParsedUser assignee) {
         this.id = id;
-        this.ref_Id = ref_Id;
         this.title = title;
         this.description = description;
         this.state = state;
-        this.web_url = web_url;
         this.created_at = created_at;
         this.updated_at = updated_at;
         this.closed_at = closed_at;
         this.labels = labels;
+        this.votes = votes;
         this.author = author;
         this.assignee = assignee;
-        this.votes = votes;
     }
 
     public String getId() {
@@ -62,14 +56,6 @@ public class ParsedIssue {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Long getRef_Id() {
-        return ref_Id;
-    }
-
-    public void setRef_Id(Long ref_Id) {
-        this.ref_Id = ref_Id;
     }
 
     public String getTitle() {
@@ -96,14 +82,6 @@ public class ParsedIssue {
         this.state = state;
     }
 
-    public String getWeb_url() {
-        return web_url;
-    }
-
-    public void setWeb_url(String web_url) {
-        this.web_url = web_url;
-    }
-
     public String getCreated_at() {
         return created_at;
     }
@@ -128,28 +106,20 @@ public class ParsedIssue {
         this.closed_at = closed_at;
     }
 
+    public Integer getVotes() {
+        return votes;
+    }
+
+    public void setVotes(Integer votes) {
+        this.votes = votes;
+    }
+
     public List<String> getLabels() {
         return labels;
     }
 
     public void setLabels(List<String> labels) {
         this.labels = labels;
-    }
-
-    public ParsedUser getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(ParsedUser author) {
-        this.author = author;
-    }
-
-    public ParsedUser getAssignee() {
-        return assignee;
-    }
-
-    public void setAssignee(ParsedUser assignee) {
-        this.assignee = assignee;
     }
 
     public List<ParsedComment> getComments() {
@@ -160,31 +130,37 @@ public class ParsedIssue {
         this.comments = comments;
     }
 
-    public Integer getVotes() {
-        return votes;
+    public ParsedUser getAssignee() {
+        return assignee;
     }
 
-    public void setVotes(Integer votes) {
-        this.votes = votes;
+    public void setAssignee(ParsedUser assignee) {
+        this.assignee = assignee;
+    }
+
+    public ParsedUser getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(ParsedUser author) {
+        this.author = author;
     }
 
     @Override
     public String toString() {
         return "ParsedIssue{" +
                 "id='" + id + '\'' +
-                "ref_Id=" + ref_Id + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", author=" + author + '\'' +
-                ", assignee=" + assignee + '\'' +
                 ", state='" + state + '\'' +
-                ", web_url='" + web_url + '\'' +
                 ", created_at='" + created_at + '\'' +
                 ", updated_at='" + updated_at + '\'' +
                 ", closed_at='" + closed_at + '\'' +
                 ", labels=" + labels +
-                ", comments=" + comments +
                 ", votes=" + votes +
+                ", comments=" + comments +
+                ", author=" + author +
+                ", assignee=" + assignee +
                 '}';
     }
 }

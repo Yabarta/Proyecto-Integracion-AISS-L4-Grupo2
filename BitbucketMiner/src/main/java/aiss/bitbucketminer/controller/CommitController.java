@@ -33,20 +33,6 @@ public class CommitController {
         return commitService.getCommits(workspace, repoSlug, page, perPage, nCommits, sinceCommits, maxPages);
     }
 
-    @PostMapping("{workspace}/{repoSlug}/commits")
-    public List<Commit> sendCommits(@PathVariable String workspace,
-                                @PathVariable String repoSlug,
-                                @RequestParam(required=false) Integer page,
-                                @RequestParam(required=false) Integer perPage,
-                                @RequestParam(required=false) Integer nCommits,
-                                @RequestParam(defaultValue = "2") Integer sinceCommits,
-                                @RequestParam(defaultValue = "2") Integer maxPages)  {
-    List<Commit> commits = commitService.getCommits(workspace, repoSlug, page, perPage, nCommits, sinceCommits, maxPages); 
-    HttpEntity<List<Commit>> request = new HttpEntity<>(commits);
-    ResponseEntity<List<Commit>> response =
-            restTemplate.exchange(gitMinerURI, HttpMethod.POST, request, new ParameterizedTypeReference<List<Commit>>() {} );
-    return response.getBody();
-    }
 
 
 }

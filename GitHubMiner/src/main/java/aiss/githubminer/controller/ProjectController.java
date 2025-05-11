@@ -19,7 +19,7 @@ public class ProjectController {
     private ProjectService projectService;
     @Autowired
     private RestTemplate restTemplate;
-    private final String gitMinerURI = "http://localhost:8080/gitminer";
+    private final String gitMinerURI = "http://localhost:8080/gitminer/projects";
 
     @GetMapping("/{owner}/{repoName}")
     public ParsedProject getProject(@PathVariable String owner,

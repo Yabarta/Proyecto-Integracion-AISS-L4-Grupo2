@@ -1,5 +1,6 @@
 package aiss.githubminer.service;
 
+import aiss.githubminer.model.ParsedComment;
 import aiss.githubminer.model.ParsedIssue;
 import aiss.githubminer.model.ParsedUser;
 import aiss.githubminer.model.comment.User;
@@ -67,6 +68,8 @@ public class IssueService {
                     .queryParam("page", currentPage)
                     .queryParam("per_page", perPage);
 
+            System.out.println("URL: " + uriBuilder.toUriString());
+
             ResponseEntity<Issue[]> response = restTemplate.exchange(
                     uriBuilder.toUriString(),
                     org.springframework.http.HttpMethod.GET,
@@ -85,9 +88,16 @@ public class IssueService {
         }
 
         List<ParsedIssue> parsedIssues = parseIssues(allIssues);
-        parsedIssues.forEach(parsedIssue -> parsedIssue.setComments(commentService
-                .getComments(owner,repo, parsedIssue.getRef_Id(),null,
-                        null,null,null)));
+
+        allIssues.forEach(issue -> {
+            List<ParsedComment> parsedComments = commentService
+            .getComments(owner, repo, issue.getNumber(), null, null, null, null);
+            for (ParsedIssue parsed : parsedIssues) {
+                if (parsed.getId().equals(String.valueOf(issue.getId()))) {
+                    parsed.setComments(parsedComments);
+                }
+            }
+        });
 
         if (nIssues != null && nIssues < parsedIssues.size()) {
             return parsedIssues.subList(0, nIssues);
@@ -102,18 +112,16 @@ public class IssueService {
         List<String> labels = new ArrayList<>();
         for (Issue issue : issues) {
             ParsedIssue newIssue = new ParsedIssue(String.valueOf(issue.getId()),
-                    issue.getNumber(),
                     issue.getTitle(),
                     issue.getDescription(),
                     issue.getState(),
-                    issue.getHtml_url(),
                     String.valueOf(issue.getCreatedAt()),
                     String.valueOf(issue.getUpdatedAt()),
                     String.valueOf(issue.getClosedAt()),
                     labels,
+                    issue.getVotes().getPlusOne(),
                     parseAuthor(issue.getAuthor()),
-                    parseAssignee(issue.getAssignee()),
-                    issue.getVotes().getPlusOne());
+                    parseAssignee(issue.getAssignee()));
 
             List<String> parsedLabels = new ArrayList<>();
             for (Label label : issue.getLabels()) {
@@ -127,7 +135,7 @@ public class IssueService {
 
     public ParsedUser parseAuthor(User user) {
         if (user == null) {
-            return new ParsedUser(null, null, null, null, null); 
+            return null;
         }
         return new ParsedUser(
                 String.valueOf(user.getId()),
@@ -140,7 +148,7 @@ public class IssueService {
     
     public ParsedUser parseAssignee(Assignee user) {
         if (user == null) {
-            return new ParsedUser(null, null, null, null, null); 
+            return null;
         }
         return new ParsedUser(
                 String.valueOf(user.getId()),

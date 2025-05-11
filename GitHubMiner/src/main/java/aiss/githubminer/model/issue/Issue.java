@@ -1,5 +1,6 @@
 package aiss.githubminer.model.issue;
 
+import aiss.githubminer.model.ParsedComment;
 import aiss.githubminer.model.ParsedUser;
 import aiss.githubminer.model.comment.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -32,7 +33,7 @@ public class Issue {
     private List<Label> labels;
     @JsonProperty("reactions")
     private Reactions votes;
-    @JsonProperty("author")
+    @JsonProperty("user")
     private User author;
     @JsonProperty("assignee")
     private Assignee assignee;
@@ -148,15 +149,15 @@ public class Issue {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", state='" + state + '\'' +
-                ", number=" + number + '\'' +
+                ", number=" + number +
                 ", html_url='" + html_url + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", closedAt=" + closedAt +
                 ", labels=" + labels +
+                ", votes=" + votes +
                 ", author=" + author +
                 ", assignee=" + assignee +
-                ", votes=" + votes +
                 '}';
     }
 }
