@@ -6,8 +6,6 @@ import aiss.githubminer.model.ParsedProject;
 import aiss.githubminer.model.project.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -26,22 +24,16 @@ public class ProjectService {
 
     @Value("${github.api.url}")
     private String githubApiUrl;
-    @Value("${github.token}")
-    private String githubToken;
 
     public ParsedProject getProjectData(String owner, String repo, Integer maxPages, Integer page, Integer perPage,
                                         Integer sinceIssues, Integer sinceCommits) {
 
         String uri = githubApiUrl + "/" + owner + "/" + repo;
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + githubToken);
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
         ResponseEntity<Project> response = restTemplate.exchange(
                 uri,
                 org.springframework.http.HttpMethod.GET,
-                entity,
+                null,
                 Project.class
         );
 

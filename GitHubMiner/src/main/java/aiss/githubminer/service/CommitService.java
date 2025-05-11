@@ -4,8 +4,6 @@ import aiss.githubminer.model.ParsedCommit;
 import aiss.githubminer.model.commit.Commit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -25,8 +23,6 @@ public class CommitService {
 
     @Value("${github.api.url}")
     private String githubApiUrl;
-    @Value("${github.token}")
-    private String githubToken;
 
     public List<ParsedCommit> getCommits(String owner, String repo, Integer page, Integer perPage,
                                          Integer sinceCommits, Integer maxPages) {
@@ -41,10 +37,6 @@ public class CommitService {
    
             String url = githubApiUrl + "/" + owner + "/" + repo + "/commits";
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer " + githubToken);
-            HttpEntity<String> entity = new HttpEntity<>(headers);
-
             UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(url)
                     .queryParam("since", since)
                     .queryParam("page", currentPage)
@@ -53,7 +45,7 @@ public class CommitService {
             ResponseEntity<Commit[]> response = restTemplate.exchange(
                     uriBuilder.toUriString(),
                     org.springframework.http.HttpMethod.GET,
-                    entity,
+                    null,
                     Commit[].class
             );
 
