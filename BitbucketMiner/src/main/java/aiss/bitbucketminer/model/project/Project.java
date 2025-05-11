@@ -1,10 +1,39 @@
 
-package aiss.bitbucketminer.model;
+package aiss.bitbucketminer.model.project;
 
+import javax.annotation.Generated;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "type",
+    "full_name",
+    "links",
+    "name",
+    "slug",
+    "description",
+    "scm",
+    "website",
+    "owner",
+    "workspace",
+    "is_private",
+    "project",
+    "fork_policy",
+    "created_on",
+    "updated_on",
+    "size",
+    "language",
+    "uuid",
+    "mainbranch",
+    "override_settings",
+    "parent",
+    "enforced_signed_commits",
+    "has_issues",
+    "has_wiki"
+})
+@Generated("jsonschema2pojo")
 public class Project {
 
     @JsonProperty("type")
@@ -25,6 +54,8 @@ public class Project {
     private String website;
     @JsonProperty("owner")
     private Owner owner;
+    @JsonProperty("workspace")
+    private Workspace workspace;
     @JsonProperty("is_private")
     private Boolean isPrivate;
     @JsonProperty("project")
@@ -41,6 +72,10 @@ public class Project {
     private String language;
     @JsonProperty("uuid")
     private String uuid;
+    @JsonProperty("mainbranch")
+    private Mainbranch mainbranch;
+    @JsonProperty("override_settings")
+    private OverrideSettings overrideSettings;
     @JsonProperty("parent")
     private Object parent;
     @JsonProperty("enforced_signed_commits")
@@ -140,6 +175,16 @@ public class Project {
         this.owner = owner;
     }
 
+    @JsonProperty("workspace")
+    public Workspace getWorkspace() {
+        return workspace;
+    }
+
+    @JsonProperty("workspace")
+    public void setWorkspace(Workspace workspace) {
+        this.workspace = workspace;
+    }
+
     @JsonProperty("is_private")
     public Boolean getIsPrivate() {
         return isPrivate;
@@ -218,6 +263,26 @@ public class Project {
     @JsonProperty("uuid")
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    @JsonProperty("mainbranch")
+    public Mainbranch getMainbranch() {
+        return mainbranch;
+    }
+
+    @JsonProperty("mainbranch")
+    public void setMainbranch(Mainbranch mainbranch) {
+        this.mainbranch = mainbranch;
+    }
+
+    @JsonProperty("override_settings")
+    public OverrideSettings getOverrideSettings() {
+        return overrideSettings;
+    }
+
+    @JsonProperty("override_settings")
+    public void setOverrideSettings(OverrideSettings overrideSettings) {
+        this.overrideSettings = overrideSettings;
     }
 
     @JsonProperty("parent")
@@ -300,6 +365,10 @@ public class Project {
         sb.append('=');
         sb.append(((this.owner == null)?"<null>":this.owner));
         sb.append(',');
+        sb.append("workspace");
+        sb.append('=');
+        sb.append(((this.workspace == null)?"<null>":this.workspace));
+        sb.append(',');
         sb.append("isPrivate");
         sb.append('=');
         sb.append(((this.isPrivate == null)?"<null>":this.isPrivate));
@@ -331,6 +400,14 @@ public class Project {
         sb.append("uuid");
         sb.append('=');
         sb.append(((this.uuid == null)?"<null>":this.uuid));
+        sb.append(',');
+        sb.append("mainbranch");
+        sb.append('=');
+        sb.append(((this.mainbranch == null)?"<null>":this.mainbranch));
+        sb.append(',');
+        sb.append("overrideSettings");
+        sb.append('=');
+        sb.append(((this.overrideSettings == null)?"<null>":this.overrideSettings));
         sb.append(',');
         sb.append("parent");
         sb.append('=');

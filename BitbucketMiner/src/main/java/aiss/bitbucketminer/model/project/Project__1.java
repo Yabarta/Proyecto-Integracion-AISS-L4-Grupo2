@@ -1,10 +1,20 @@
 
-package aiss.bitbucketminer.model;
+package aiss.bitbucketminer.model.project;
 
+import javax.annotation.Generated;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "type",
+    "key",
+    "uuid",
+    "name",
+    "links"
+})
+@Generated("jsonschema2pojo")
 public class Project__1 {
 
     @JsonProperty("type")
@@ -71,7 +81,7 @@ public class Project__1 {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Project__1 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Project__1.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("type");
         sb.append('=');
         sb.append(((this.type == null)?"<null>":this.type));
